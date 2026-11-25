@@ -26,8 +26,8 @@ Deployment Protection → *Protection Bypass for Automation* (o que tem a nota "
 
 ## Pendências de segurança (fazer na Vercel)
 
-- [ ] Apagar o 1º token (o que foi colado no chat) em vercel.com/account/settings/tokens.
-- [ ] Em Deployment Protection, apagar o segredo de bypass **sem nota**, criado sem querer.
+- [x] Apagar o 1º token (o que foi colado no chat). Feito: só resta o token "PREVIA CHONOKO".
+- [x] Apagar o segredo de bypass sem nota. Feito: só resta o das proprietárias, agora marcado como principal.
 
 ## Próximos ajustes (combinar)
 
