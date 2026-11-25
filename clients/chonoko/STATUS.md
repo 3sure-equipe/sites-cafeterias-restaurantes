@@ -1,6 +1,6 @@
 # Chonoko — onde paramos
 
-Atualizado em 25/11/2026.
+Atualizado em 25/11/2026. Última publicação na Vercel: Etapa 01 (refinamento visual), commit `52743c3`.
 
 ## Links
 
@@ -31,8 +31,8 @@ Deployment Protection → *Protection Bypass for Automation* (o que tem a nota "
 
 ## Próximos ajustes (combinar)
 
-- [ ] Rodada de ajustes visuais pedidos pela equipe.
+- [x] Etapa 01: refinamento visual do site e do painel (publicada).
 - [ ] Aviso "1 Insight" do Next.js no painel, só no modo de desenvolvimento. Não afeta a prévia.
-- [ ] Carregar mais cedo a foto principal da abertura (sugestão do Next.js para velocidade).
+- [x] Carregar mais cedo a foto principal da abertura.
 - [ ] Dados da Chonoko: endereço, horários, cafés e bebidas, ano de fundação (1988?), pontos de `cardapio-extraido.md`.
 - [ ] Futuro: banco de dados e login reais no painel (ver `site/README.md`) e plano/hospedagem para a versão oficial.
