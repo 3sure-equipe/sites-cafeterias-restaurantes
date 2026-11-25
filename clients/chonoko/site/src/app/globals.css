@@ -20,6 +20,14 @@
   --color-taupe-ink: #6a635e;
   --color-linha: #e4d8c6;
 
+  /* Estados (painel): tons discretos, todos com contraste AA sobre o fundo claro */
+  --color-erro: #9b2c2c;
+  --color-erro-fundo: #fbeceb;
+  --color-sucesso: #2f5d2c;
+  --color-sucesso-fundo: #e5efe2;
+  --color-aviso: #7a5a12;
+  --color-aviso-fundo: #f5ecd6;
+
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
 
@@ -61,18 +69,27 @@
     color: var(--color-creme);
   }
 
+  /* Foco visível que acompanha o arredondamento de cada elemento */
   :focus-visible {
     outline: 2px solid var(--color-rosa-ink);
     outline-offset: 3px;
-    border-radius: 4px;
+  }
+  /* Sobre fundos escuros, o contorno usa o rosa claro para manter contraste */
+  .bg-bordo :focus-visible,
+  .bg-bordo-escuro :focus-visible,
+  .bg-madeira-escura :focus-visible,
+  .bg-madeira :focus-visible,
+  dialog.bg-madeira-escura\/95 :focus-visible {
+    outline-color: var(--color-rosa-claro);
   }
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 500;
-    line-height: 1.04;
+    line-height: 1.08;
     letter-spacing: -0.01em;
     text-wrap: balance;
   }
@@ -84,6 +101,34 @@
   section[id] {
     scroll-margin-top: 4.5rem;
   }
+}
+
+/*
+ * Escala tipográfica do site (uso: className="titulo-secao" etc.)
+ * Um só lugar para manter títulos e textos consistentes.
+ */
+@utility titulo-secao {
+  font-size: clamp(2.35rem, 1.6rem + 3vw, 3.85rem);
+  line-height: 1.05;
+}
+@utility titulo-bloco {
+  font-size: clamp(1.55rem, 1.35rem + 0.7vw, 1.9rem);
+  line-height: 1.15;
+}
+@utility texto-destaque {
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.2rem);
+  line-height: 1.65;
+}
+@utility rotulo {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+/* Espaçamento vertical padrão das seções */
+@utility secao {
+  padding-block: clamp(4.5rem, 3rem + 6vw, 8rem);
 }
 
 @layer components {

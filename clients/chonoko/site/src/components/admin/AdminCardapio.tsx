@@ -83,7 +83,7 @@ export function AdminCardapio() {
           <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-taupe-ink" aria-hidden="true" />
           <input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Buscar produto pelo nome" className={`${estiloEntrada} !rounded-full pl-10`} />
           {busca && (
-            <button type="button" onClick={() => setBusca("")} className="absolute right-2 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-creme" aria-label="Limpar busca">
+            <button type="button" onClick={() => setBusca("")} className="absolute right-1 top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-full hover:bg-creme" aria-label="Limpar busca">
               <X className="size-4" />
             </button>
           )}
@@ -100,7 +100,11 @@ export function AdminCardapio() {
         )}
       </div>
 
-      <ul className="mt-6 divide-y divide-bordo/10 overflow-hidden rounded-2xl bg-white ring-1 ring-bordo/10">
+      <p className="mt-6 text-[0.85rem] text-taupe-ink" aria-live="polite">
+        {lista.length} {lista.length === 1 ? "produto" : "produtos"}
+        {termo ? ` encontrados para “${busca.trim()}”` : ""}
+      </p>
+      <ul className="mt-2 divide-y divide-bordo/10 overflow-hidden rounded-2xl bg-white ring-1 ring-bordo/10">
         {lista.length === 0 && <li className="px-6 py-12 text-center text-taupe-ink">Nenhum produto encontrado.</li>}
         {lista.map((p) => (
           <li key={p.id} className={`flex items-center gap-3 px-3 py-3 sm:gap-4 sm:px-5 ${p.disponivel ? "" : "bg-creme/40"}`}>
@@ -112,10 +116,12 @@ export function AdminCardapio() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate font-semibold text-madeira">{p.nome}</p>
-              <p className="truncate text-[0.82rem] text-taupe-ink">
+              <p className="truncate text-[0.82rem] tabular-nums text-taupe-ink">
                 {catPorId.get(p.categoriaId)?.nome ?? "Sem categoria"} · {resumoPrecos(p)}
               </p>
-              {!p.disponivel && <p className="text-[0.75rem] font-semibold text-rosa-ink">Oculto no site</p>}
+              {!p.disponivel && (
+                <span className="mt-1 inline-block rounded-full bg-taupe/15 px-2 py-0.5 text-[0.72rem] font-bold text-taupe-ink">Oculto no site</span>
+              )}
             </div>
             <div className="hidden sm:block">
               <Interruptor
@@ -127,7 +133,7 @@ export function AdminCardapio() {
             <button type="button" onClick={() => setEditando(p)} className="grid size-11 shrink-0 place-items-center rounded-full text-bordo hover:bg-creme" aria-label={`Editar ${p.nome}`}>
               <Pencil className="size-[1.1rem]" />
             </button>
-            <button type="button" onClick={() => setExcluindo(p)} className="grid size-11 shrink-0 place-items-center rounded-full text-[#9b2c2c] hover:bg-[#fbe9e9]" aria-label={`Excluir ${p.nome}`}>
+            <button type="button" onClick={() => setExcluindo(p)} className="grid size-11 shrink-0 place-items-center rounded-full text-erro hover:bg-erro-fundo" aria-label={`Excluir ${p.nome}`}>
               <Trash className="size-[1.1rem]" />
             </button>
           </li>
@@ -177,13 +183,20 @@ function FormProduto({
     inicial.variacoes.map((v) => ({ rotulo: v.rotulo ?? "", preco: precoParaCampo(v.preco) })),
   );
   const [selos, setSelos] = useState((inicial.selos ?? []).join(", "));
-  const [erro, setErro] = useState<string | null>(null);
+  const [erros, setErros] = useState<Partial<Record<"nome" | "categoria" | "precos", string>>>({});
   const muda = <K extends keyof Produto>(k: K, v: Produto[K]) => setP((a) => ({ ...a, [k]: v }));
   const novo = !inicial.nome;
 
   function enviar() {
-    if (!p.nome.trim()) return setErro("Informe o nome do produto.");
-    if (!p.categoriaId) return setErro("Escolha uma categoria.");
+    const e: typeof erros = {};
+    if (!p.nome.trim()) e.nome = "Informe o nome do produto.";
+    if (!p.categoriaId) e.categoria = "Escolha uma categoria.";
+    if (variacoes.some((v) => v.preco.trim() && lerPreco(v.preco) === null)) e.precos = "Há um preço inválido. Use números, por exemplo 12,50.";
+    setErros(e);
+    if (Object.keys(e).length) {
+      requestAnimationFrame(() => document.querySelector<HTMLElement>("dialog[open] [data-invalido] input, dialog[open] [data-invalido] select")?.focus());
+      return;
+    }
     const vs: Variacao[] = variacoes
       .filter((v) => v.rotulo.trim() || v.preco.trim())
       .map((v) => ({ rotulo: v.rotulo.trim() || null, preco: lerPreco(v.preco) }));
@@ -212,10 +225,10 @@ function FormProduto({
       }
     >
       <div className="space-y-6">
-        <Campo rotulo="Nome do produto">
+        <Campo rotulo="Nome do produto" erro={erros.nome}>
           {(id) => <input id={id} className={estiloEntrada} value={p.nome} maxLength={90} onChange={(e) => muda("nome", e.target.value)} />}
         </Campo>
-        <Campo rotulo="Categoria">
+        <Campo rotulo="Categoria" erro={erros.categoria}>
           {(id) => (
             <select id={id} className={estiloEntrada} value={p.categoriaId} onChange={(e) => muda("categoriaId", e.target.value)}>
               {(["loja", "encomenda"] as const).map((g) => (
@@ -233,11 +246,11 @@ function FormProduto({
             </select>
           )}
         </Campo>
-        <Campo rotulo="Descrição (opcional)" ajuda="Sabores, ingredientes ou observações.">
+        <Campo rotulo="Descrição" opcional ajuda="Sabores, ingredientes ou observações.">
           {(id) => <textarea id={id} rows={3} className={estiloEntrada} value={p.descricao ?? ""} maxLength={300} onChange={(e) => muda("descricao", e.target.value)} />}
         </Campo>
 
-        <fieldset>
+        <fieldset data-invalido={erros.precos ? "true" : undefined}>
           <legend className="text-[0.9rem] font-semibold">Tamanhos e preços</legend>
           <p className="text-[0.8rem] text-taupe-ink">Ex.: “50g” e “150g”, ou “100 unidades”. Se houver um preço só, deixe o tamanho em branco. Preço vazio = “sob consulta”.</p>
           <div className="mt-2 space-y-2">
@@ -265,7 +278,7 @@ function FormProduto({
                   type="button"
                   onClick={() => setVariacoes((a) => a.filter((_, k) => k !== i))}
                   disabled={variacoes.length === 1}
-                  className="grid size-11 shrink-0 place-items-center rounded-full text-[#9b2c2c] hover:bg-[#fbe9e9] disabled:opacity-30"
+                  className="grid size-11 shrink-0 place-items-center rounded-full text-erro hover:bg-erro-fundo disabled:opacity-30"
                   aria-label={`Remover tamanho ${i + 1}`}
                 >
                   <X className="size-4" />
@@ -273,6 +286,11 @@ function FormProduto({
               </div>
             ))}
           </div>
+          {erros.precos && (
+            <p role="alert" className="mt-2 text-[0.83rem] font-semibold text-erro">
+              {erros.precos}
+            </p>
+          )}
           <BotaoAdmin variante="fantasma" className="mt-2 !px-3" onClick={() => setVariacoes((a) => [...a, { rotulo: "", preco: "" }])}>
             <Plus className="size-4" aria-hidden="true" /> Adicionar tamanho
           </BotaoAdmin>
@@ -280,7 +298,7 @@ function FormProduto({
 
         <EnvioFoto foto={p.foto} onMudar={(f) => muda("foto", f)} />
 
-        <Campo rotulo="Selos (opcional)" ajuda="Separados por vírgula. Ex.: Sazonal, Novidade">
+        <Campo rotulo="Selos" opcional ajuda="Separados por vírgula. Ex.: Sazonal, Novidade">
           {(id) => <input id={id} className={estiloEntrada} value={selos} onChange={(e) => setSelos(e.target.value)} />}
         </Campo>
 
@@ -290,11 +308,6 @@ function FormProduto({
           </div>
         </div>
 
-        {erro && (
-          <p role="alert" className="rounded-xl bg-[#fbe9e9] px-4 py-3 text-[0.9rem] font-semibold text-[#9b2c2c]">
-            {erro}
-          </p>
-        )}
       </div>
     </Janela>
   );

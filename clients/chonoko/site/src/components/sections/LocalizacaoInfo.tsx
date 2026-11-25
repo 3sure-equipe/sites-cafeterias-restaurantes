@@ -3,7 +3,7 @@
 import { Clock, MapPin } from "lucide-react";
 import { linkWhatsapp, mapsBuscaUrl, site } from "@/data/site";
 import { useDados } from "@/lib/dados/store";
-import { Botao } from "@/components/ui/Botao";
+import { Botao, LinkTexto } from "@/components/ui/Botao";
 import { BotaoWhatsapp } from "@/components/ui/BotaoWhatsapp";
 import { IconeInstagram } from "@/components/ui/Icones";
 import { Pendente } from "@/components/ui/Pendente";
@@ -18,7 +18,7 @@ export function LocalizacaoInfo() {
     <>
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
         <div className="rounded-[1.75rem] bg-creme p-6 ring-1 ring-bordo/10">
-          <h3 className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-rosa-ink">
+          <h3 className="rotulo flex items-center gap-2.5 text-rosa-ink">
             <MapPin className="size-4" aria-hidden="true" /> Endereço
           </h3>
           <address className="mt-4 not-italic">
@@ -33,19 +33,13 @@ export function LocalizacaoInfo() {
               {info.cidade} – {info.estado}
             </p>
           </address>
-          <a
-            href={mapsBuscaUrl(info.endereco)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-sublinhado mt-5 inline-block text-[0.92rem] font-semibold text-bordo"
-          >
-            {info.endereco ? "Traçar rota no Google Maps →" : "Buscar no Google Maps →"}
-            <span className="sr-only"> (abre em nova aba)</span>
-          </a>
+          <LinkTexto href={mapsBuscaUrl(info.endereco)} externo className="mt-5">
+            {info.endereco ? "Traçar rota no Google Maps" : "Buscar no Google Maps"}
+          </LinkTexto>
         </div>
 
         <div className="rounded-[1.75rem] bg-creme p-6 ring-1 ring-bordo/10">
-          <h3 className="flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-rosa-ink">
+          <h3 className="rotulo flex items-center gap-2.5 text-rosa-ink">
             <Clock className="size-4" aria-hidden="true" /> Horários
           </h3>
           <dl className="mt-4 space-y-1.5 text-[0.95rem]">

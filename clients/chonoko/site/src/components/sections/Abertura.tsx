@@ -26,7 +26,7 @@ export function Abertura() {
             {site.slogan.inicio}{" "}
             <em className="block font-medium text-rosa">{site.slogan.destaque}</em>
           </h1>
-          <p className="mt-7 max-w-md text-lg leading-relaxed text-taupe-ink motion-safe:animate-[entrar_1s_var(--ease-suave)_240ms_both] sm:text-xl">
+          <p className="texto-destaque mt-7 max-w-md text-taupe-ink motion-safe:animate-[entrar_1s_var(--ease-suave)_240ms_both] sm:text-[1.25rem]">
             Chocolates e biscoitos artesanais feitos com ingredientes selecionados e receitas únicas. Puxe uma cadeira,
             escolha o seu preferido e fique à vontade.
           </p>
@@ -48,7 +48,8 @@ export function Abertura() {
                   src={fotos.ambiente.src}
                   alt={fotos.ambiente.alt}
                   fill
-                  preload
+                  loading="eager"
+                  fetchPriority="high"
                   placeholder="blur"
                   sizes="(min-width: 1024px) 34rem, 92vw"
                   className="object-cover object-[62%_50%] transition-transform duration-[2s] ease-suave hover:scale-[1.03]"
@@ -77,7 +78,7 @@ export function Abertura() {
             </div>
 
             {/* Selo girando */}
-            <Selo className="absolute -bottom-10 -left-2 w-28 sm:-bottom-12 sm:-left-12 sm:w-40" />
+            <Selo className="absolute -bottom-9 -left-1 w-28 sm:-bottom-12 sm:-left-10 sm:w-36 lg:w-40" />
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ const momentos = [
 
 export function Experiencia() {
   return (
-    <section id="experiencia" aria-labelledby="titulo-experiencia" className="relative overflow-hidden bg-papel py-24 lg:py-36">
+    <section id="experiencia" aria-labelledby="titulo-experiencia" className="secao relative overflow-hidden bg-papel">
       <div className="mx-auto grid max-w-[1320px] items-center gap-16 px-5 sm:px-8 lg:grid-cols-12 lg:gap-10 lg:px-12">
         {/* Composição fotográfica */}
         <Reveal className="relative lg:col-span-6">
@@ -71,7 +71,7 @@ export function Experiencia() {
             />
           </Reveal>
 
-          <ol className="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2">
+          <ol className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2">
             {momentos.map((m, i) => (
               <li key={m.titulo}>
                 <Reveal atraso={i * 90} className="group">
@@ -79,7 +79,7 @@ export function Experiencia() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="mt-3 block h-px w-12 bg-bordo/25 transition-all duration-500 ease-suave group-hover:w-20 group-hover:bg-bordo" />
-                  <h3 className="mt-4 text-[1.65rem] text-bordo">{m.titulo}</h3>
+                  <h3 className="titulo-bloco mt-4 text-bordo">{m.titulo}</h3>
                   <p className="mt-2 text-taupe-ink">{m.texto}</p>
                 </Reveal>
               </li>

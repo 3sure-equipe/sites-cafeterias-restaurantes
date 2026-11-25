@@ -57,7 +57,7 @@ export function GaleriaGrade({ itens }: { itens: ItemGaleria[] }) {
               <button
                 type="button"
                 onClick={(e) => abrir(item.id, e.currentTarget)}
-                className="group relative block size-full overflow-hidden rounded-[1.5rem] text-left"
+                className="group relative block size-full overflow-hidden rounded-[1.25rem] text-left sm:rounded-[1.5rem]"
                 aria-label={`Ampliar foto: ${item.titulo}`}
               >
                 <Image
@@ -66,13 +66,13 @@ export function GaleriaGrade({ itens }: { itens: ItemGaleria[] }) {
                   fill
                   placeholder={typeof item.src === "string" ? "empty" : "blur"}
                   sizes={item.formato === "grande" ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
-                  className="object-cover transition-transform duration-[1.2s] ease-suave group-hover:scale-105"
+                  className="object-cover transition-transform duration-[1.2s] ease-suave group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
                   style={{ objectPosition: item.posicao ?? "50% 50%" }}
                 />
                 <span className="absolute inset-0 bg-gradient-to-t from-madeira-escura/70 via-madeira-escura/0 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
-                <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-creme">
-                  <span className="font-display text-xl italic sm:text-2xl">{item.titulo}</span>
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-papel/20 backdrop-blur transition-all duration-500 group-hover:bg-papel group-hover:text-bordo">
+                <span className="absolute inset-x-3 bottom-3 flex items-end justify-between gap-2 text-creme sm:inset-x-4 sm:bottom-4 sm:gap-3">
+                  <span className="font-display text-[1.05rem] italic leading-tight sm:text-xl lg:text-2xl">{item.titulo}</span>
+                  <span className="hidden size-10 shrink-0 sm:grid place-items-center rounded-full bg-papel/20 backdrop-blur transition-all duration-500 group-hover:bg-papel group-hover:text-bordo">
                     <Maximize2 className="size-4" aria-hidden="true" />
                   </span>
                 </span>

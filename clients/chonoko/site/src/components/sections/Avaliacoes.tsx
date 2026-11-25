@@ -20,7 +20,7 @@ export function Avaliacoes() {
     <section
       id="avaliacoes"
       aria-labelledby="titulo-avaliacoes"
-      className="grao relative overflow-hidden bg-creme py-24 lg:py-32"
+      className="secao grao relative overflow-hidden bg-creme"
       style={{ "--festone-cor": "var(--color-creme)" } as React.CSSProperties}
     >
       <div className="festone absolute inset-x-0 -top-4" aria-hidden="true" />
@@ -88,7 +88,7 @@ export function Avaliacoes() {
             variante="secundario"
             icone={site.avaliacoesUrl ? undefined : <IconeInstagram className="size-5" />}
           >
-            {site.avaliacoesUrl ? "Ver avaliações" : "Acompanhe a Chonoko no Instagram"}
+            {site.avaliacoesUrl ? "Ver avaliações" : "Siga a Chonoko no Instagram"}
           </Botao>
         </div>
       </div>

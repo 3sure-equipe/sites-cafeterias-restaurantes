@@ -28,11 +28,11 @@ export function Rodape() {
         </div>
 
         <nav aria-label="Rodapé" className="md:col-span-3">
-          <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-rosa-claro">Navegue</h2>
-          <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-1">
+          <h2 className="rotulo text-rosa-claro">Navegue</h2>
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 md:grid-cols-1">
             {navegacao.map((n) => (
               <li key={n.href}>
-                <a href={n.href} className="link-sublinhado transition-colors hover:text-creme">
+                <a href={n.href} className="inline-flex min-h-10 items-center transition-colors hover:text-creme">
                   {n.rotulo}
                 </a>
               </li>
@@ -41,14 +41,14 @@ export function Rodape() {
         </nav>
 
         <div className="md:col-span-4">
-          <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-rosa-claro">Contato</h2>
-          <ul className="mt-5 space-y-4">
+          <h2 className="rotulo text-rosa-claro">Contato</h2>
+          <ul className="mt-4 space-y-2">
             <li>
               <a
                 href={site.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 transition-colors hover:text-creme"
+                className="inline-flex min-h-11 items-center gap-3 transition-colors hover:text-creme"
               >
                 <IconeInstagram className="size-5 text-rosa-claro" />
                 {site.instagram.usuario}
@@ -57,7 +57,7 @@ export function Rodape() {
             </li>
             <li className="flex flex-wrap items-center gap-3">
               <MessageCircle className="size-5 text-rosa-claro" aria-hidden="true" />
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-creme">
+              <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center transition-colors hover:text-creme">
                 WhatsApp {infoInicial.whatsappExibicao}
                 <span className="sr-only">(abre em nova aba)</span>
               </a>
@@ -81,7 +81,7 @@ export function Rodape() {
           </p>
           <p>
             Protótipo de apresentação ·{" "}
-            <a href="/admin" className="underline-offset-4 hover:text-creme hover:underline">
+            <a href="/admin" className="inline-flex min-h-10 items-center underline-offset-4 hover:text-creme hover:underline">
               Área da equipe
             </a>
           </p>

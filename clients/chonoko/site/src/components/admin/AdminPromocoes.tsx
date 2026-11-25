@@ -9,9 +9,11 @@ import { lerPreco, precoParaCampo } from "@/lib/formatos";
 import { rotuloTipo, textoValidade } from "@/components/sections/NovidadesLista";
 import { BotaoAdmin, CabecalhoPagina, Campo, Confirmacao, EnvioFoto, estiloEntrada, Interruptor, Janela, useAviso } from "./ui";
 
+type Erros = Partial<Record<"titulo" | "precoPor" | "fim", string>>;
+
 export const estiloStatus: Record<StatusPublicacao, { rotulo: string; classe: string }> = {
-  "no-ar": { rotulo: "No ar", classe: "bg-[#e3efe2] text-[#2f5d2c]" },
-  agendada: { rotulo: "Agendada", classe: "bg-[#f4ead2] text-[#7a5a12]" },
+  "no-ar": { rotulo: "No ar", classe: "bg-sucesso-fundo text-sucesso" },
+  agendada: { rotulo: "Agendada", classe: "bg-aviso-fundo text-aviso" },
   encerrada: { rotulo: "Encerrada", classe: "bg-taupe/15 text-taupe-ink" },
   desativada: { rotulo: "Desativada", classe: "bg-taupe/15 text-taupe-ink" },
 };
@@ -133,7 +135,7 @@ export function AdminPromocoes() {
                       {p.ativo ? <EyeOff className="size-4" aria-hidden="true" /> : <Eye className="size-4" aria-hidden="true" />}
                       {p.ativo ? "Desativar" : "Ativar"}
                     </BotaoAdmin>
-                    <BotaoAdmin variante="fantasma" className="!min-h-10 !px-3 !text-[#9b2c2c]" onClick={() => setExcluindo(p)}>
+                    <BotaoAdmin variante="fantasma" className="!min-h-10 !px-3 !text-erro" onClick={() => setExcluindo(p)}>
                       <Trash className="size-4" aria-hidden="true" /> Excluir
                     </BotaoAdmin>
                   </div>
@@ -179,16 +181,24 @@ function FormPublicacao({ inicial, onFechar, onSalvar }: { inicial: Publicacao; 
   const [p, setP] = useState(inicial);
   const [precoDe, setPrecoDe] = useState(precoParaCampo(inicial.precoOriginal));
   const [precoPor, setPrecoPor] = useState(precoParaCampo(inicial.precoPromocional));
-  const [erro, setErro] = useState<string | null>(null);
+  const [erros, setErros] = useState<Erros>({});
   const muda = <K extends keyof Publicacao>(k: K, v: Publicacao[K]) => setP((a) => ({ ...a, [k]: v }));
   const novo = !inicial.titulo;
 
   function enviar() {
-    if (!p.titulo.trim()) return setErro("Dê um título para a publicação.");
-    if (p.inicio && p.fim && p.fim < p.inicio) return setErro("A data de término precisa ser depois da data de início.");
     const de = lerPreco(precoDe);
     const por = lerPreco(precoPor);
-    if (de !== null && por !== null && por >= de) return setErro("O preço promocional deve ser menor que o preço normal.");
+    const e: Erros = {};
+    if (!p.titulo.trim()) e.titulo = "Dê um título para a publicação.";
+    if (precoPor.trim() && por === null) e.precoPor = "Preço inválido. Use números, por exemplo 12,50.";
+    else if (de !== null && por !== null && por >= de) e.precoPor = "O preço promocional deve ser menor que o preço normal.";
+    if (p.inicio && p.fim && p.fim < p.inicio) e.fim = "A data de término precisa ser depois da data de início.";
+    setErros(e);
+    if (Object.keys(e).length) {
+      // Leva a pessoa até o primeiro campo com problema
+      requestAnimationFrame(() => document.querySelector<HTMLElement>("dialog[open] [data-invalido] input, dialog[open] [data-invalido] textarea")?.focus());
+      return;
+    }
     onSalvar({ ...p, titulo: p.titulo.trim(), precoOriginal: de, precoPromocional: por, demo: false });
   }
 
@@ -228,7 +238,7 @@ function FormPublicacao({ inicial, onFechar, onSalvar }: { inicial: Publicacao; 
           </div>
         </fieldset>
 
-        <Campo rotulo="Título">
+        <Campo rotulo="Título" erro={erros.titulo}>
           {(id) => (
             <input id={id} className={estiloEntrada} value={p.titulo} maxLength={80} onChange={(e) => muda("titulo", e.target.value)} placeholder="Ex.: Semana da trufa" />
           )}
@@ -242,21 +252,21 @@ function FormPublicacao({ inicial, onFechar, onSalvar }: { inicial: Publicacao; 
         <EnvioFoto foto={p.foto} onMudar={(f) => muda("foto", f)} />
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Campo rotulo="Preço normal (opcional)" ajuda="Aparece riscado quando há preço promocional.">
+          <Campo rotulo="Preço normal" opcional ajuda="Aparece riscado quando há preço promocional.">
             {(id) => <input id={id} inputMode="decimal" className={estiloEntrada} value={precoDe} onChange={(e) => setPrecoDe(e.target.value)} placeholder="0,00" />}
           </Campo>
-          <Campo rotulo="Preço promocional (opcional)" ajuda="Deixe em branco se não houver.">
+          <Campo rotulo="Preço promocional" opcional ajuda="Deixe em branco se não houver." erro={erros.precoPor}>
             {(id) => <input id={id} inputMode="decimal" className={estiloEntrada} value={precoPor} onChange={(e) => setPrecoPor(e.target.value)} placeholder="0,00" />}
           </Campo>
           <Campo rotulo="Começa em" ajuda="Em branco: começa agora.">
             {(id) => <input id={id} type="date" className={estiloEntrada} value={p.inicio ?? ""} onChange={(e) => muda("inicio", e.target.value || null)} />}
           </Campo>
-          <Campo rotulo="Termina em" ajuda="Em branco: sem data para acabar.">
+          <Campo rotulo="Termina em" ajuda="Em branco: sem data para acabar." erro={erros.fim}>
             {(id) => <input id={id} type="date" className={estiloEntrada} value={p.fim ?? ""} onChange={(e) => muda("fim", e.target.value || null)} />}
           </Campo>
         </div>
 
-        <Campo rotulo="Condições" ajuda="Regras, limites ou observações. Ex.: válido enquanto durarem os estoques.">
+        <Campo rotulo="Condições" opcional ajuda="Regras, limites ou observações. Ex.: válido enquanto durarem os estoques.">
           {(id) => <textarea id={id} rows={2} className={estiloEntrada} value={p.condicoes} maxLength={240} onChange={(e) => muda("condicoes", e.target.value)} />}
         </Campo>
 
@@ -264,11 +274,6 @@ function FormPublicacao({ inicial, onFechar, onSalvar }: { inicial: Publicacao; 
           <Interruptor ligado={p.ativo} onMudar={(v) => muda("ativo", v)} rotulo="Mostrar no site" descricao="Desligue para guardar sem publicar." />
         </div>
 
-        {erro && (
-          <p role="alert" className="rounded-xl bg-[#fbe9e9] px-4 py-3 text-[0.9rem] font-semibold text-[#9b2c2c]">
-            {erro}
-          </p>
-        )}
       </div>
     </Janela>
   );

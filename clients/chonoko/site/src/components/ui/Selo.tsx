@@ -11,7 +11,7 @@ type Props = { className?: string; frase?: string; tom?: "claro" | "escuro" };
 export function Selo({ className = "", frase = "Pequenos momentos ✦ grandes sabores ✦ Chonoko ✦ ", tom = "claro" }: Props) {
   const id = `anel-${useId().replace(/:/g, "")}`;
   return (
-    <div className={`relative aspect-square ${className}`}>
+    <div className={`${className.includes("absolute") ? "" : "relative"} aspect-square ${className}`}>
       <svg viewBox="0 0 200 200" className="absolute inset-0 size-full motion-safe:animate-girar" aria-hidden="true">
         <defs>
           <path id={id} d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0" />

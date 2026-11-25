@@ -7,7 +7,7 @@ export function Cardapio() {
     <section
       id="cardapio"
       aria-labelledby="titulo-cardapio"
-      className="grao relative bg-creme pb-24 pt-24 lg:pb-32 lg:pt-32"
+      className="secao grao relative bg-creme"
       style={{ "--festone-cor": "var(--color-creme)" } as React.CSSProperties}
     >
       <div className="festone absolute inset-x-0 -top-4" aria-hidden="true" />

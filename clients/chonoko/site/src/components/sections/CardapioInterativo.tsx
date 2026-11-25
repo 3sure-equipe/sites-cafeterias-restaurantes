@@ -200,8 +200,8 @@ export function CardapioInterativo() {
 function CabecalhoCategoria({ categoria }: { categoria: Categoria }) {
   return (
     <div className="mb-8 flex flex-col gap-2 border-b border-bordo/15 pb-5 sm:flex-row sm:items-end sm:justify-between">
-      <h3 className="text-4xl text-bordo sm:text-5xl">{categoria.nome}</h3>
-      {categoria.descricao && <p className="max-w-xl font-display text-xl italic text-taupe-ink sm:text-right">{categoria.descricao}</p>}
+      <h3 className="text-[2rem] text-bordo sm:text-[2.6rem]">{categoria.nome}</h3>
+      {categoria.descricao && <p className="max-w-xl font-display text-lg italic leading-snug text-taupe-ink sm:text-right sm:text-xl">{categoria.descricao}</p>}
     </div>
   );
 }
@@ -210,7 +210,7 @@ function RegrasEncomenda({ whatsapp }: { whatsapp: string }) {
   return (
     <div className="mb-10 grid gap-5 rounded-[1.75rem] bg-papel p-6 ring-1 ring-bordo/10 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rosa-ink">Como encomendar</p>
+        <p className="rotulo text-rosa-ink">Como encomendar</p>
         <ul className="mt-3 grid gap-x-8 gap-y-2 text-[0.95rem] text-madeira sm:grid-cols-2">
           {regrasEncomenda.map((r) => (
             <li key={r} className="flex gap-2.5">
@@ -259,34 +259,33 @@ function CartaoProduto({
   mostrarCategoria: boolean;
   onAbrir: () => void;
 }) {
+  // O botão do nome se estende sobre o card inteiro: uma só área de toque e uma só parada no teclado.
   return (
-    <article className="group flex h-full flex-col">
-      <button
-        type="button"
-        onClick={onAbrir}
-        className="relative aspect-square overflow-hidden rounded-[1.5rem] rounded-tl-[3rem] bg-blush shadow-[0_18px_40px_-26px_rgb(43_26_23/0.7)]"
-        aria-label={`Ver detalhes: ${produto.nome}`}
-      >
+    <article className="group relative flex h-full flex-col">
+      <div className="relative aspect-square overflow-hidden rounded-[1.25rem] rounded-tl-[2.75rem] bg-blush shadow-[0_14px_30px_-22px_rgb(43_26_23/0.55)] ring-1 ring-bordo/[0.06] transition-[box-shadow,transform] duration-500 ease-suave group-hover:-translate-y-1 group-hover:shadow-[0_22px_40px_-24px_rgb(43_26_23/0.6)] motion-reduce:group-hover:translate-y-0">
         <FotoProduto
           foto={produto.foto}
-          alt={produto.nome}
+          alt=""
           icone={categoria?.icone ?? "docinho"}
           sizes="(min-width: 1024px) 18rem, (min-width: 640px) 30vw, 46vw"
-          className="transition-transform duration-700 ease-suave group-hover:scale-[1.06]"
+          className="transition-transform duration-700 ease-suave group-hover:scale-[1.05]"
         />
         {produto.selos?.map((s) => (
           <span key={s} className="absolute left-3 top-3 rounded-full bg-papel/90 px-2.5 py-0.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-bordo">
             {s}
           </span>
         ))}
-      </button>
-      <div className="mt-4 flex flex-1 flex-col">
-        {mostrarCategoria && categoria && (
-          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-rosa-ink">{categoria.nome}</p>
-        )}
-        <h4 className="font-display text-[1.35rem] font-semibold leading-[1.1] text-bordo sm:text-[1.5rem]">
-          <button type="button" onClick={onAbrir} className="text-left transition-colors hover:text-rosa-ink">
+      </div>
+      <div className="mt-3.5 flex flex-1 flex-col">
+        {mostrarCategoria && categoria && <p className="rotulo !text-[0.68rem] text-rosa-ink">{categoria.nome}</p>}
+        <h4 className="text-[1.3rem] font-semibold leading-[1.12] text-bordo transition-colors group-hover:text-rosa-ink sm:text-[1.45rem]">
+          <button
+            type="button"
+            onClick={onAbrir}
+            className="text-left after:absolute after:inset-0 after:rounded-[1.25rem] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-rosa-ink"
+          >
             {produto.nome}
+            <span className="sr-only"> — ver detalhes e preços</span>
           </button>
         </h4>
         {produto.descricao && <p className="mt-1.5 line-clamp-2 text-[0.88rem] leading-snug text-taupe-ink">{produto.descricao}</p>}
@@ -339,7 +338,7 @@ function DetalheProduto({
           </div>
           <div className="flex flex-col p-6 sm:p-9">
             <div className="flex items-start justify-between gap-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rosa-ink">
+              <p className="rotulo text-rosa-ink">
                 {categoria?.nome}
                 {encomenda && " · encomenda"}
               </p>

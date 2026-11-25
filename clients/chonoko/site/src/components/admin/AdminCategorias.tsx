@@ -36,7 +36,7 @@ export function AdminCategorias() {
           return (
             <section key={g} aria-labelledby={`cat-${g}`} className="rounded-2xl bg-white p-4 ring-1 ring-bordo/10 sm:p-5">
               <div className="flex items-center justify-between gap-3">
-                <h2 id={`cat-${g}`} className="font-display text-2xl font-semibold text-bordo">
+                <h2 id={`cat-${g}`} className="font-display text-[1.6rem] font-semibold leading-tight text-bordo">
                   {g === "loja" ? "Loja (pronta entrega)" : "Doces finos (encomenda)"}
                 </h2>
                 <BotaoAdmin variante="secundario" className="!min-h-10 !px-4" onClick={() => setEditando(nova(g))}>
@@ -66,7 +66,7 @@ export function AdminCategorias() {
                       <button type="button" onClick={() => setEditando(c)} className="grid size-10 place-items-center rounded-full text-bordo hover:bg-creme" aria-label={`Editar ${c.nome}`}>
                         <Pencil className="size-4" />
                       </button>
-                      <button type="button" onClick={() => setExcluindo(c)} className="grid size-10 place-items-center rounded-full text-[#9b2c2c] hover:bg-[#fbe9e9]" aria-label={`Excluir ${c.nome}`}>
+                      <button type="button" onClick={() => setExcluindo(c)} className="grid size-10 place-items-center rounded-full text-erro hover:bg-erro-fundo" aria-label={`Excluir ${c.nome}`}>
                         <Trash className="size-4" />
                       </button>
                     </li>
@@ -95,6 +95,7 @@ export function AdminCategorias() {
           titulo="Esta categoria tem produtos"
           texto={`“${excluindo.nome}” tem ${qtd(excluindo.id)} produto(s). Mova ou exclua esses produtos no Cardápio antes de excluir a categoria.`}
           rotuloConfirmar="Entendi"
+          apenasAviso
           onCancelar={() => setExcluindo(null)}
           onConfirmar={() => setExcluindo(null)}
         />
@@ -118,6 +119,7 @@ export function AdminCategorias() {
 function FormCategoria({ inicial, onFechar, onSalvar }: { inicial: Categoria; onFechar: () => void; onSalvar: (c: Categoria) => void }) {
   const [c, setC] = useState(inicial);
   const [erro, setErro] = useState<string | null>(null);
+  const salvar = () => (c.nome.trim() ? onSalvar({ ...c, nome: c.nome.trim() }) : setErro("Informe o nome da categoria."));
   return (
     <Janela
       aberta
@@ -129,15 +131,15 @@ function FormCategoria({ inicial, onFechar, onSalvar }: { inicial: Categoria; on
           <BotaoAdmin variante="secundario" onClick={onFechar}>
             Cancelar
           </BotaoAdmin>
-          <BotaoAdmin onClick={() => (c.nome.trim() ? onSalvar({ ...c, nome: c.nome.trim() }) : setErro("Informe o nome da categoria."))}>
+          <BotaoAdmin onClick={salvar}>
             Salvar
           </BotaoAdmin>
         </>
       }
     >
       <div className="space-y-5">
-        <Campo rotulo="Nome">{(id) => <input id={id} className={estiloEntrada} value={c.nome} maxLength={40} onChange={(e) => setC({ ...c, nome: e.target.value })} />}</Campo>
-        <Campo rotulo="Frase de apresentação (opcional)">
+        <Campo rotulo="Nome" erro={erro}>{(id) => <input id={id} className={estiloEntrada} value={c.nome} maxLength={40} onChange={(e) => setC({ ...c, nome: e.target.value })} />}</Campo>
+        <Campo rotulo="Frase de apresentação" opcional>
           {(id) => <textarea id={id} rows={2} className={estiloEntrada} value={c.descricao ?? ""} maxLength={220} onChange={(e) => setC({ ...c, descricao: e.target.value })} />}
         </Campo>
         <Campo rotulo="Onde aparece">
@@ -168,7 +170,6 @@ function FormCategoria({ inicial, onFechar, onSalvar }: { inicial: Categoria; on
             })}
           </div>
         </fieldset>
-        {erro && <p role="alert" className="rounded-xl bg-[#fbe9e9] px-4 py-3 text-[0.9rem] font-semibold text-[#9b2c2c]">{erro}</p>}
       </div>
     </Janela>
   );

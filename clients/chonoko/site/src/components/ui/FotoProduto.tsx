@@ -16,7 +16,7 @@ type Props = {
  * enviadas pelo painel (data URL). Sem foto, mostra a arte provisória.
  */
 export function FotoProduto({ foto, alt, icone, sizes, className = "" }: Props) {
-  if (!foto) return <ArteProvisoria icone={icone} tamanho="p" legenda={`foto de ${alt}`} />;
+  if (!foto) return <ArteProvisoria icone={icone} tamanho="p" legenda={alt ? `foto de ${alt}` : "foto em breve"} />;
   return (
     <Image
       src={foto}

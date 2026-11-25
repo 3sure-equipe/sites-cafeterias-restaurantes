@@ -5,6 +5,7 @@ import { formatarPreco } from "@/data/cardapio";
 import { linkWhatsapp } from "@/data/site";
 import { statusPublicacao, useDados, useHoje } from "@/lib/dados/store";
 import type { Publicacao } from "@/lib/dados/tipos";
+import { LinkTexto } from "@/components/ui/Botao";
 import { BotaoWhatsapp } from "@/components/ui/BotaoWhatsapp";
 import { FotoProduto } from "@/components/ui/FotoProduto";
 import { AvisoDemo } from "@/components/ui/Pendente";
@@ -115,8 +116,8 @@ function Conteudo({ p, whatsapp, compacto }: { p: Publicacao; whatsapp: string; 
           </span>
         )}
       </div>
-      <h3 className={`mt-4 text-bordo ${compacto ? "text-[1.6rem]" : "text-3xl sm:text-4xl"}`}>{p.titulo}</h3>
-      <p className={`mt-2 text-taupe-ink ${compacto ? "line-clamp-3 text-[0.92rem]" : ""}`}>{p.descricao}</p>
+      <h3 className={`mt-4 text-bordo ${compacto ? "titulo-bloco" : "text-[1.9rem] leading-[1.1] sm:text-[2.4rem]"}`}>{p.titulo}</h3>
+      <p className={`mt-2.5 text-taupe-ink ${compacto ? "line-clamp-3 text-[0.92rem] leading-relaxed" : "leading-relaxed"}`}>{p.descricao}</p>
       {(p.precoOriginal !== null || p.precoPromocional !== null) && (
         <p className="mt-3 flex items-baseline gap-2">
           {p.precoOriginal !== null && p.precoPromocional !== null && (
@@ -140,14 +141,9 @@ function Conteudo({ p, whatsapp, compacto }: { p: Publicacao; whatsapp: string; 
       {p.condicoes && !compacto && <p className="mt-2 text-[0.85rem] italic text-taupe-ink">{p.condicoes}</p>}
       <div className={`mt-auto ${compacto ? "pt-4" : "pt-7"}`}>
         {compacto ? (
-          <a
-            href={linkWhatsapp(msg, whatsapp)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-sublinhado text-[0.92rem] font-semibold text-bordo"
-          >
-            Saber mais no WhatsApp →<span className="sr-only"> (abre em nova aba)</span>
-          </a>
+          <LinkTexto href={linkWhatsapp(msg, whatsapp)} externo>
+            Saber mais no WhatsApp
+          </LinkTexto>
         ) : (
           <BotaoWhatsapp href={linkWhatsapp(msg, whatsapp)}>Saber mais</BotaoWhatsapp>
         )}

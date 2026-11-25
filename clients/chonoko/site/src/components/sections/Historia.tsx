@@ -28,10 +28,10 @@ export function Historia() {
     >
       <div className="festone absolute inset-x-0 -top-4" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-[1320px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
+      <div className="secao relative mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-10">
           <Reveal className="flex justify-center lg:col-span-5">
-            <div className="relative w-64 sm:w-80 lg:w-[24rem]">
+            <div className="relative w-52 sm:w-72 lg:w-[22rem]">
               <div aria-hidden="true" className="absolute inset-[-12%] rounded-full border border-dashed border-creme/15" />
               <Selo tom="escuro" frase={`${site.assinatura} ✦ ${site.selo} ✦ `} />
             </div>
@@ -75,12 +75,12 @@ export function Historia() {
         </div>
 
         {/* Pilares */}
-        <ul className="mt-20 grid gap-px overflow-hidden rounded-[1.75rem] bg-creme/10 sm:grid-cols-3 lg:mt-28">
+        <ul className="mt-14 grid gap-px overflow-hidden rounded-[1.75rem] bg-creme/10 sm:grid-cols-3 lg:mt-20">
           {pilares.map((p, i) => (
             <li key={p.titulo} className="bg-bordo">
-              <Reveal atraso={i * 100} className="group h-full p-7 transition-colors duration-500 hover:bg-bordo-escuro sm:p-9">
+              <Reveal atraso={i * 100} className="group h-full p-6 transition-colors duration-500 hover:bg-bordo-escuro sm:p-8">
                 <span className="font-display text-lg italic text-rosa-claro">✦</span>
-                <h3 className="mt-3 text-3xl text-creme">{p.titulo}</h3>
+                <h3 className="titulo-bloco mt-3 text-creme">{p.titulo}</h3>
                 <p className="mt-2 text-creme/75">{p.texto}</p>
               </Reveal>
             </li>
@@ -88,13 +88,13 @@ export function Historia() {
         </ul>
 
         {/* Linha do tempo a preencher */}
-        <div className="mt-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rosa-claro">Nossa trajetória</p>
+        <div className="mt-12 lg:mt-16">
+          <p className="rotulo text-rosa-claro">Nossa trajetória</p>
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
             {marcos.map((m) => (
               <li key={m.titulo} className="relative border-t border-creme/20 pt-5">
                 <span className="absolute -top-[5px] left-0 size-2.5 rounded-full bg-rosa-claro" aria-hidden="true" />
-                <p className="font-display text-3xl text-creme">{m.titulo}</p>
+                <p className="titulo-bloco font-display text-creme">{m.titulo}</p>
                 <p className="mt-2 flex flex-wrap items-center gap-2 text-creme/70">
                   {m.texto} {m.pendente && <Pendente tom="escuro">A confirmar</Pendente>}
                 </p>

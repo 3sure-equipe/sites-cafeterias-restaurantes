@@ -18,12 +18,12 @@ export function Titulo({ id, chamada, titulo, texto, tom = "claro", centro = fal
       </Eyebrow>
       <h2
         id={id}
-        className={`mt-5 text-[2.6rem] sm:text-5xl lg:text-[4rem] ${tom === "claro" ? "text-bordo" : "text-creme"}`}
+        className={`titulo-secao mt-4 ${tom === "claro" ? "text-bordo" : "text-creme"}`}
       >
         {titulo}
       </h2>
       {texto && (
-        <p className={`mt-5 text-lg ${tom === "claro" ? "text-taupe-ink" : "text-creme/80"} ${centro ? "mx-auto" : ""} max-w-xl`}>
+        <p className={`texto-destaque mt-5 max-w-xl ${tom === "claro" ? "text-taupe-ink" : "text-creme/80"} ${centro ? "mx-auto" : ""}`}>
           {texto}
         </p>
       )}

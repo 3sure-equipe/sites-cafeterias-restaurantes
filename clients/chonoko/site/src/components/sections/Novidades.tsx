@@ -4,7 +4,7 @@ import { NovidadesLista } from "./NovidadesLista";
 
 export function Novidades() {
   return (
-    <section id="novidades" aria-labelledby="titulo-novidades" className="bg-papel py-24 lg:py-32">
+    <section id="novidades" aria-labelledby="titulo-novidades" className="secao bg-papel">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <Reveal>
           <Titulo

@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
+import { Check, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { linkWhatsapp } from "@/data/site";
 import { acoes, useDados } from "@/lib/dados/store";
@@ -34,8 +34,8 @@ function Formulario({ inicial }: { inicial: InfoLoja }) {
         }}
       >
         <section className="space-y-5 rounded-2xl bg-white p-5 ring-1 ring-bordo/10 sm:p-6">
-          <h2 className="font-display text-2xl font-semibold text-bordo">WhatsApp</h2>
-          <Campo rotulo="Número" ajuda="Com DDD. Ex.: (51) 99669-5981">
+          <h2 className="font-display text-[1.6rem] font-semibold leading-tight text-bordo">WhatsApp</h2>
+          <Campo rotulo="Número" ajuda="Com DDD. Ex.: (51) 99669-5981" erro={numeroValido ? null : "Número incompleto. Informe DDD + número."}>
             {(id) => (
               <input
                 id={id}
@@ -46,7 +46,6 @@ function Formulario({ inicial }: { inicial: InfoLoja }) {
               />
             )}
           </Campo>
-          {!numeroValido && <p className="text-[0.85rem] font-semibold text-[#9b2c2c]">Número incompleto. Use DDD + número.</p>}
           <Campo rotulo="Mensagem inicial" ajuda="Texto que já aparece escrito quando o cliente abre a conversa.">
             {(id) => <textarea id={id} rows={3} className={estiloEntrada} value={f.whatsappMensagem} onChange={(e) => setF({ ...f, whatsappMensagem: e.target.value })} />}
           </Campo>
@@ -54,14 +53,14 @@ function Formulario({ inicial }: { inicial: InfoLoja }) {
             href={linkWhatsapp(f.whatsappMensagem, numero)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[0.9rem] font-semibold text-bordo underline-offset-4 hover:underline"
+            className="-my-2 inline-flex min-h-11 items-center gap-2 text-[0.9rem] font-semibold text-bordo underline-offset-4 hover:underline"
           >
             Testar link do WhatsApp <ExternalLink className="size-4" aria-hidden="true" />
           </a>
         </section>
 
         <section className="space-y-5 rounded-2xl bg-white p-5 ring-1 ring-bordo/10 sm:p-6">
-          <h2 className="font-display text-2xl font-semibold text-bordo">Endereço</h2>
+          <h2 className="font-display text-[1.6rem] font-semibold leading-tight text-bordo">Endereço</h2>
           <Campo rotulo="Rua, número e bairro" ajuda="Enquanto estiver vazio, o site mostra “a confirmar”.">
             {(id) => <input id={id} className={estiloEntrada} value={f.endereco ?? ""} placeholder="Ex.: Rua ..., 123 – Centro" onChange={(e) => setF({ ...f, endereco: e.target.value })} />}
           </Campo>
@@ -72,7 +71,7 @@ function Formulario({ inicial }: { inicial: InfoLoja }) {
         </section>
 
         <section className="rounded-2xl bg-white p-5 ring-1 ring-bordo/10 sm:p-6 lg:col-span-2">
-          <h2 className="font-display text-2xl font-semibold text-bordo">Horário de funcionamento</h2>
+          <h2 className="font-display text-[1.6rem] font-semibold leading-tight text-bordo">Horário de funcionamento</h2>
           <p className="mt-1 text-[0.85rem] text-taupe-ink">Ex.: “9h às 19h”. Escreva “Fechado” nos dias sem atendimento. Vazio = a confirmar.</p>
           <div className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
             {f.horarios.map((h, i) => (
@@ -91,15 +90,31 @@ function Formulario({ inicial }: { inicial: InfoLoja }) {
           </div>
         </section>
 
-        <div className="sticky bottom-20 z-10 flex justify-end gap-2 lg:bottom-4 lg:col-span-2">
-          {mudou && (
-            <BotaoAdmin variante="secundario" onClick={() => setF(inicial)}>
-              Desfazer
+        {/* Barra de salvamento: mostra se há alterações pendentes */}
+        <div className="sticky bottom-20 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white/95 px-4 py-3 shadow-[0_12px_30px_-18px_rgb(43_26_23/0.5)] ring-1 ring-bordo/10 backdrop-blur sm:px-5 lg:bottom-4 lg:col-span-2">
+          <p className="flex items-center gap-2 text-[0.88rem] font-semibold" aria-live="polite">
+            {mudou ? (
+              <>
+                <span className="size-2 rounded-full bg-aviso" aria-hidden="true" />
+                <span className="text-aviso">Alterações ainda não salvas</span>
+              </>
+            ) : (
+              <>
+                <Check className="size-4 text-sucesso" aria-hidden="true" />
+                <span className="text-taupe-ink">Tudo salvo</span>
+              </>
+            )}
+          </p>
+          <div className="flex gap-2">
+            {mudou && (
+              <BotaoAdmin variante="secundario" onClick={() => setF(inicial)}>
+                Desfazer
+              </BotaoAdmin>
+            )}
+            <BotaoAdmin type="submit" disabled={!mudou || !numeroValido}>
+              Salvar alterações
             </BotaoAdmin>
-          )}
-          <BotaoAdmin type="submit" disabled={!mudou || !numeroValido} className="shadow-lg">
-            Salvar alterações
-          </BotaoAdmin>
+          </div>
         </div>
       </form>
       {aviso}

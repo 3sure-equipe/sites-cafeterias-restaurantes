@@ -5,7 +5,7 @@ import { GaleriaGrade } from "./GaleriaGrade";
 
 export function Galeria() {
   return (
-    <section id="galeria" aria-labelledby="titulo-galeria" className="bg-papel py-24 lg:py-32">
+    <section id="galeria" aria-labelledby="titulo-galeria" className="secao bg-papel">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>

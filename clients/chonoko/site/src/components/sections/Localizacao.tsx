@@ -7,7 +7,7 @@ import { LocalizacaoInfo } from "./LocalizacaoInfo";
 
 export function Localizacao() {
   return (
-    <section id="localizacao" aria-labelledby="titulo-localizacao" className="bg-papel py-24 lg:py-32">
+    <section id="localizacao" aria-labelledby="titulo-localizacao" className="secao bg-papel">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           {/* Foto da fachada */}
