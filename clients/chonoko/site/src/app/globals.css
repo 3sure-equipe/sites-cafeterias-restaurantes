@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+/*
+ * Chonoko — sistema visual
+ * Paleta-base extraída das fotos (aproximada, a confirmar com a cafeteria).
+ * Tons "-ink" e "-claro" são variações criadas para garantir contraste AA em textos.
+ */
+@theme {
+  --color-bordo: #4a2029;
+  --color-bordo-escuro: #351519;
+  --color-rosa: #b87578;
+  --color-rosa-ink: #8f4f55; /* rosa para textos pequenos sobre fundos claros (5.2:1) */
+  --color-rosa-claro: #d9a5a3; /* rosa para textos sobre bordô (6.4:1) */
+  --color-blush: #ecd9d3;
+  --color-creme: #f3ebdd;
+  --color-papel: #faf7f2;
+  --color-madeira: #3b2923;
+  --color-madeira-escura: #2b1a17;
+  --color-taupe: #77716c;
+  --color-taupe-ink: #6a635e;
+  --color-linha: #e4d8c6;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-girar: girar 40s linear infinite;
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-madeira);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-bordo);
+    color: var(--color-creme);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-rosa-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+}
+
+@layer components {
+  /* Textura de papel muito sutil sobre fundos claros */
+  .grao {
+    position: relative;
+    isolation: isolate;
+  }
+  .grao::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.23 0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 .08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Faixa de toldo: listras bordô e papel com borda recortada, como na fachada */
+  .toldo {
+    --listra: 22px;
+    --recorte: 11px;
+    height: 34px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-bordo) 0 var(--listra),
+      var(--color-papel) var(--listra) calc(var(--listra) * 2)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) top / 100% calc(100% - var(--recorte)) no-repeat,
+      radial-gradient(circle var(--recorte) at 50% 0, #000 98%, #0000) bottom left / var(--listra) var(--recorte) repeat-x;
+    mask:
+      linear-gradient(#000 0 0) top / 100% calc(100% - var(--recorte)) no-repeat,
+      radial-gradient(circle var(--recorte) at 50% 0, #000 98%, #0000) bottom left / var(--listra) var(--recorte) repeat-x;
+  }
+
+  /* Borda em arcos (festonê) para transições entre seções */
+  .festone {
+    height: 16px;
+    background: radial-gradient(circle 16px at 50% 100%, var(--festone-cor) 98%, #0000) bottom / 32px 16px repeat-x;
+  }
+  .festone-baixo {
+    height: 16px;
+    background: radial-gradient(circle 16px at 50% 0, var(--festone-cor) 98%, #0000) top / 32px 16px repeat-x;
+  }
+
+  /* Listras finas usadas nas artes provisórias */
+  .listras-suaves {
+    background-image: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-rosa) 14%, transparent) 0 14px,
+      transparent 14px 28px
+    );
+  }
+
+  .link-sublinhado {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-suave);
+  }
+  .link-sublinhado:hover,
+  .link-sublinhado[aria-current="true"] {
+    background-size: 100% 1px;
+  }
+
+  /* Revelação suave ao rolar (ver components/ui/Reveal.tsx) */
+  .revelar {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s var(--ease-suave),
+      transform 0.9s var(--ease-suave);
+    transition-delay: var(--atraso, 0ms);
+  }
+  .revelar[data-visivel="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sem-barra {
+    scrollbar-width: none;
+  }
+  .sem-barra::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Sem JavaScript, o conteúdo nunca fica escondido */
+@media (scripting: none) {
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
