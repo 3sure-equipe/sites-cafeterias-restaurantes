@@ -1,8 +1,8 @@
 import { iconesCategoria } from "./Icones";
-import type { IconeCategoria } from "@/data/cardapio";
+import type { IconeCategoria } from "@/lib/dados/tipos";
 
 type Props = {
-  icone: IconeCategoria | "ambiente" | "especial";
+  icone: IconeCategoria | "ambiente";
   legenda?: string;
   className?: string;
   tamanho?: "p" | "m" | "g";

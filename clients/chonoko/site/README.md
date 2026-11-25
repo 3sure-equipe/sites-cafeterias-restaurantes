@@ -23,22 +23,49 @@ Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Lucide e `next/fo
 (Cormorant Garamond nos títulos e Manrope nos textos). Não há backend nem integrações externas, a não ser o
 mapa do Google, que só carrega quando o visitante clica.
 
-## Onde atualizar o conteúdo
+## Cardápio
 
-Todo o conteúdo fica separado do visual, em `src/data/`:
+O cardápio é o **real**, transcrito dos dois PDFs da Chonoko: 83 produtos em 13 categorias, com as fotos dos próprios PDFs.
+Ele se divide em dois grupos, **Na loja** (pronta entrega) e **Doces finos** (encomendas, preço por cento).
+O registro da extração e os pontos a confirmar estão em `clients/chonoko/cardapio-extraido.md`.
+
+## Painel da equipe (`/admin`)
+
+As proprietárias podem atualizar o site sozinhas por estas telas:
+
+| Tela | O que dá para fazer |
+|---|---|
+| Início | Resumo, atalhos e lista do que falta completar |
+| Promoções | Criar, editar, excluir, ativar/desativar; foto, preço "de/por", início, término, condições; tipos Promoção, Novidade e Produto especial |
+| Cardápio | Produtos: nome, categoria, descrição, tamanhos e preços, foto, mostrar/ocultar no site |
+| Categorias | Criar, renomear, trocar ícone, reordenar, excluir |
+| Contato e horários | WhatsApp e mensagem inicial, endereço e horários por dia |
+
+O que estiver ativo e dentro do período aparece sozinho na seção de Novidades do site.
+
+### Modo demonstração (hoje)
+
+- Não há senha: a tela de acesso é demonstrativa.
+- Os dados ficam no `localStorage` do navegador. O site aberto no mesmo navegador mostra as mudanças na hora, inclusive em outra aba.
+- "Restaurar dados originais" volta ao cardápio dos PDFs.
+
+### Caminho para a versão oficial
+
+Tudo passa por `src/lib/dados/repositorio.ts`, então as telas não precisam mudar. Para a versão oficial falta:
+
+1. Criar um `RepositorioRemoto` (por exemplo, Supabase/Postgres) com as tabelas `categorias`, `produtos`, `publicacoes` e `info_loja`, seguindo os tipos de `src/lib/dados/tipos.ts`.
+2. Guardar as fotos num armazenamento de arquivos e salvar no banco só a URL.
+3. Adicionar login das proprietárias e proteger `/admin` e as gravações com regras de acesso.
+4. Gerar o site público no servidor a partir do banco, revalidando a cada alteração (mantém velocidade e SEO).
+
+## Onde ficam os dados iniciais
 
 | Arquivo | O que tem |
 |---|---|
-| `src/data/site.ts` | Endereço, WhatsApp, horários, Instagram, link de avaliações e embed do mapa. Campos `null` aparecem como "a confirmar". |
-| `src/data/cardapio.ts` | Categorias e itens do cardápio. **Hoje só tem itens de exemplo** (`demo: true`, sem preço e sem foto). |
-| `src/data/conteudo.ts` | Fotos reais, galeria, novidades (exemplos) e avaliações (lista vazia de propósito). |
-
-Quando os dados forem preenchidos, os avisos de "exemplo" e "a confirmar" somem sozinhos. Por exemplo:
-- `whatsapp: "5551XXXXXXXXX"` ativa os botões de WhatsApp com mensagem pronta;
-- quando nenhum item do cardápio tiver `demo: true`, o aviso de cardápio demonstrativo deixa de aparecer;
-- adicionar avaliações reais em `avaliacoes` troca os cards vazios pelos depoimentos.
-
-Fotos de produtos vão em `public/cardapio/` e são referenciadas no item (`foto: "/cardapio/nome.jpg"`).
+| `src/data/cardapio.ts` | Categorias, produtos e regras de encomenda (dos PDFs) |
+| `src/data/site.ts` | Nome, Instagram, WhatsApp, ano de fundação (a confirmar), endereço e horários (a confirmar) |
+| `src/data/conteudo.ts` | Fotos do espaço, galeria, publicações de exemplo e avaliações ilustrativas |
+| `public/cardapio/` | Fotos dos produtos (recortadas dos PDFs) |
 
 ## Estrutura
 
@@ -48,13 +75,20 @@ src/
   assets/images/  fotos reais da Chonoko (cópias tratadas de clients/chonoko/assets)
   components/
     layout/       cabeçalho + menu mobile, rodapé, barra de protótipo, atalhos mobile
+    admin/        telas do painel da equipe
     sections/     abertura, experiência, cardápio, galeria, história, novidades, avaliações, localização
-    ui/           botão, títulos, selo animado, artes provisórias, revelação ao rolar
-  data/           conteúdo editável
+    ui/           botões, títulos, selo animado, fotos de produto, revelação ao rolar
+  data/           dados iniciais
+  lib/dados/      tipos, repositório (armazenamento) e estado compartilhado site ↔ painel
 ```
 
 ## O que ainda depende da Chonoko
 
-Ver a lista completa em `clients/chonoko/brand-guide.md`, seção 7. Em resumo: endereço, horários, WhatsApp
-(e a finalidade dele), cardápio com preços, fotos dos produtos, a história da marca, promoções vigentes,
-avaliações autorizadas (ou link do perfil no Google), confirmação das cores e o logo em vetor.
+- Endereço e horários de funcionamento.
+- Confirmação do ano de fundação (1988, citado no Menu Loja).
+- Cardápio de cafés e bebidas, que não está nos PDFs.
+- Pontos do cardápio listados em `clients/chonoko/cardapio-extraido.md` (preço das tortas, "Lagar.H", "Brulle", cestas).
+- História da marca com mais detalhes.
+- Avaliações reais autorizadas: as atuais são **ilustrativas**.
+- Promoções reais: as atuais são **exemplos**.
+- Confirmação das cores e logo em vetor.

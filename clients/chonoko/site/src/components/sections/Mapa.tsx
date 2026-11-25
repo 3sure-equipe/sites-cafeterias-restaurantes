@@ -2,20 +2,20 @@
 
 import { MapPin } from "lucide-react";
 import { useState } from "react";
-import { mapsEmbed, site } from "@/data/site";
+import { mapsEmbedUrl, site } from "@/data/site";
 
 /**
  * O mapa do Google só carrega quando a pessoa pede: mais leve e mais respeitoso
  * com a privacidade. Sem endereço confirmado, o mapa mostra uma BUSCA pelo nome.
  */
-export function Mapa() {
+export function Mapa({ endereco }: { endereco: string | null }) {
   const [carregar, setCarregar] = useState(false);
   return (
     <div>
       <div className="relative aspect-[16/10] overflow-hidden rounded-[1.75rem] bg-blush/50 ring-1 ring-bordo/10 sm:aspect-[16/8]">
         {carregar ? (
           <iframe
-            src={mapsEmbed}
+            src={mapsEmbedUrl(endereco)}
             title={`Mapa: ${site.nome}, ${site.cidade}`}
             className="absolute inset-0 size-full border-0"
             loading="lazy"
@@ -24,7 +24,6 @@ export function Mapa() {
           />
         ) : (
           <div className="absolute inset-0">
-            {/* Mapa estilizado (decorativo) */}
             <svg aria-hidden="true" className="absolute inset-0 size-full text-bordo/10" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 200">
               <g stroke="currentColor" strokeWidth="10" fill="none">
                 <path d="M-20 70 L420 40" />
@@ -54,10 +53,10 @@ export function Mapa() {
           </div>
         )}
       </div>
-      {!site.endereco && (
+      {!endereco && (
         <p className="mt-3 text-[0.85rem] text-taupe-ink">
-          Enquanto o endereço não é confirmado, o mapa mostra uma busca por “{site.nome} {site.cidade}”. Depois, será
-          fixado no endereço oficial.
+          Enquanto o endereço não é confirmado, o mapa mostra uma busca por “{site.nome} {site.cidade}”. Depois, será fixado
+          no endereço oficial.
         </p>
       )}
     </div>

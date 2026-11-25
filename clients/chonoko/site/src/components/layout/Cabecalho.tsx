@@ -4,7 +4,9 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import logo from "@/assets/images/logo-selo.png";
-import { navegacao, site } from "@/data/site";
+import { linkWhatsapp, navegacao, site } from "@/data/site";
+import { useDados } from "@/lib/dados/store";
+import { IconeWhatsapp } from "@/components/ui/IconeWhatsapp";
 import { IconeInstagram } from "@/components/ui/Icones";
 
 export function Cabecalho() {
@@ -13,6 +15,8 @@ export function Cabecalho() {
   const [ativo, setAtivo] = useState<string>("#inicio");
   const botaoMenu = useRef<HTMLButtonElement>(null);
   const painel = useRef<HTMLDivElement>(null);
+  const { info } = useDados();
+  const wa = linkWhatsapp(info.whatsappMensagem, info.whatsapp);
 
   // Fundo do cabeçalho ao rolar
   useEffect(() => {
@@ -121,9 +125,19 @@ export function Cabecalho() {
         <div className="flex items-center gap-2">
           <a
             href="#cardapio"
-            className="hidden min-h-11 items-center rounded-full bg-bordo px-5 text-[0.9rem] font-semibold text-creme transition-colors duration-300 hover:bg-bordo-escuro sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-full border border-bordo/25 px-5 text-[0.9rem] font-semibold text-bordo transition-colors duration-300 hover:border-bordo hover:bg-bordo/5 xl:inline-flex"
           >
             Ver cardápio
+          </a>
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex size-12 items-center justify-center gap-2 rounded-full bg-bordo text-[0.9rem] font-semibold text-creme transition-colors duration-300 hover:bg-bordo-escuro sm:size-auto sm:min-h-11 sm:px-5"
+            aria-label="Conversar no WhatsApp (abre em nova aba)"
+          >
+            <IconeWhatsapp className="size-5" />
+            <span className="hidden sm:inline">WhatsApp</span>
           </a>
           <button
             ref={botaoMenu}
@@ -196,10 +210,20 @@ export function Cabecalho() {
             Ver cardápio
           </a>
           <a
-            href={site.instagram.url}
+            href={wa}
             target="_blank"
             rel="noopener noreferrer"
             className="flex min-h-13 items-center justify-center gap-2 rounded-full border border-creme/30 px-6 font-semibold"
+          >
+            <IconeWhatsapp className="size-5" />
+            WhatsApp {info.whatsappExibicao}
+            <span className="sr-only">(abre em nova aba)</span>
+          </a>
+          <a
+            href={site.instagram.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-full px-6 font-semibold text-creme/80"
           >
             <IconeInstagram className="size-5" />
             {site.instagram.usuario}

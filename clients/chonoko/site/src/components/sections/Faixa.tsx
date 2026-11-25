@@ -1,6 +1,6 @@
 import { site } from "@/data/site";
 
-const palavras = ["Cafés", "Chocolates artesanais", "Tortas", site.assinatura, "Feito com carinho", site.cidade];
+const palavras = ["Bombons", "Trufas", "Biscoitos artesanais", "Tortas", "Doces finos", "Cestas", site.assinatura, site.cidade];
 
 /** Toldo listrado + faixa em movimento lento. Estática com movimento reduzido. */
 export function Faixa() {

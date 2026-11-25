@@ -2,25 +2,37 @@ import {
   Armchair,
   CakeSlice,
   Candy,
+  Cherry,
   Coffee,
   Cookie,
-  CupSoda,
-  Sandwich,
+  Croissant,
+  Dessert,
+  Gift,
+  Grid2x2,
+  ShoppingBasket,
+  Snowflake,
   Sparkles,
+  Gem,
   type LucideIcon,
 } from "lucide-react";
 import type { SVGProps } from "react";
-import type { IconeCategoria } from "@/data/cardapio";
+import type { IconeCategoria } from "@/lib/dados/tipos";
 
-export const iconesCategoria: Record<IconeCategoria | "ambiente" | "especial", LucideIcon> = {
-  cafe: Coffee,
-  bebida: CupSoda,
+export const iconesCategoria: Record<IconeCategoria | "ambiente", LucideIcon> = {
+  biscoito: Cookie,
+  salgado: Croissant,
+  bombom: Candy,
+  barra: Grid2x2,
+  presente: Gift,
+  refrigerado: Snowflake,
   torta: CakeSlice,
-  chocolate: Candy,
-  doce: Cookie,
-  salgado: Sandwich,
+  cesta: ShoppingBasket,
+  cafe: Coffee,
+  docinho: Dessert,
+  gourmet: Sparkles,
+  ganache: Cherry,
+  especial: Gem,
   ambiente: Armchair,
-  especial: Sparkles,
 };
 
 /** Glifo simples do Instagram (a Lucide não inclui ícones de marcas). */

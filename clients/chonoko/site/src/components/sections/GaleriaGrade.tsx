@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { ItemGaleria } from "@/data/conteudo";
-import { ArteProvisoria } from "@/components/ui/ArteProvisoria";
 import { Reveal } from "@/components/ui/Reveal";
 
 const formatos: Record<ItemGaleria["formato"], string> = {
@@ -13,10 +12,8 @@ const formatos: Record<ItemGaleria["formato"], string> = {
   normal: "",
 };
 
-type Foto = Extract<ItemGaleria, { tipo: "foto" }>;
-
 export function GaleriaGrade({ itens }: { itens: ItemGaleria[] }) {
-  const fotos = itens.filter((i): i is Foto => i.tipo === "foto");
+  const fotos = itens;
   const [indice, setIndice] = useState<number | null>(null);
   const dialogo = useRef<HTMLDialogElement>(null);
   const origem = useRef<HTMLElement | null>(null);
@@ -57,35 +54,29 @@ export function GaleriaGrade({ itens }: { itens: ItemGaleria[] }) {
         {itens.map((item, i) => (
           <li key={item.id} className={formatos[item.formato]}>
             <Reveal atraso={(i % 4) * 80} className="h-full">
-              {item.tipo === "foto" ? (
-                <button
-                  type="button"
-                  onClick={(e) => abrir(item.id, e.currentTarget)}
-                  className="group relative block size-full overflow-hidden rounded-[1.5rem] text-left"
-                  aria-label={`Ampliar foto: ${item.titulo}`}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    placeholder="blur"
-                    sizes={item.formato === "grande" ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
-                    className="object-cover transition-transform duration-[1.2s] ease-suave group-hover:scale-105"
-                    style={{ objectPosition: item.posicao ?? "50% 50%" }}
-                  />
-                  <span className="absolute inset-0 bg-gradient-to-t from-madeira-escura/70 via-madeira-escura/0 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
-                  <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-creme">
-                    <span className="font-display text-xl italic sm:text-2xl">{item.titulo}</span>
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-papel/20 backdrop-blur transition-all duration-500 group-hover:bg-papel group-hover:text-bordo">
-                      <Maximize2 className="size-4" aria-hidden="true" />
-                    </span>
+              <button
+                type="button"
+                onClick={(e) => abrir(item.id, e.currentTarget)}
+                className="group relative block size-full overflow-hidden rounded-[1.5rem] text-left"
+                aria-label={`Ampliar foto: ${item.titulo}`}
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  placeholder={typeof item.src === "string" ? "empty" : "blur"}
+                  sizes={item.formato === "grande" ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+                  className="object-cover transition-transform duration-[1.2s] ease-suave group-hover:scale-105"
+                  style={{ objectPosition: item.posicao ?? "50% 50%" }}
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-madeira-escura/70 via-madeira-escura/0 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-creme">
+                  <span className="font-display text-xl italic sm:text-2xl">{item.titulo}</span>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-papel/20 backdrop-blur transition-all duration-500 group-hover:bg-papel group-hover:text-bordo">
+                    <Maximize2 className="size-4" aria-hidden="true" />
                   </span>
-                </button>
-              ) : (
-                <div className="group size-full overflow-hidden rounded-[1.5rem]">
-                  <ArteProvisoria icone={item.icone} legenda={`Em breve · ${item.titulo}`} className="rounded-[1.5rem]" />
-                </div>
-              )}
+                </span>
+              </button>
             </Reveal>
           </li>
         ))}

@@ -21,8 +21,7 @@ export function Galeria() {
           </Reveal>
           <Reveal atraso={100} className="max-w-sm">
             <p className="text-taupe-ink">
-              Toque nas fotos para ampliar. Os espaços ilustrados estão reservados para as próximas fotos de cafés,
-              tortas, doces e chocolates da casa.
+              O salão, a esquina e alguns dos produtos feitos na casa. Toque nas fotos para ampliar.
             </p>
           </Reveal>
         </div>

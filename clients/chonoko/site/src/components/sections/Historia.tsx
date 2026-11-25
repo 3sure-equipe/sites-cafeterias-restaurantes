@@ -8,11 +8,15 @@ import { Titulo } from "@/components/ui/Titulo";
 const pilares = [
   { titulo: "Qualidade", texto: "A primeira palavra do nosso selo e o cuidado que guia cada escolha." },
   { titulo: "Sabor", texto: "O que faz a gente voltar: aquele gosto que vira lembrança." },
-  { titulo: "Feito à mão", texto: "Chocolates artesanais, como está escrito no nosso selo." },
+  { titulo: "Receitas únicas", texto: "Ingredientes selecionados e receitas próprias em toda a linha de produtos." },
 ];
 
-/** Marcos da trajetória — a preencher com a Chonoko. */
-const marcos = ["O começo", "A loja de esquina", "Hoje"];
+/** Marcos da trajetória. Só o ano vem do cardápio; os detalhes serão preenchidos com a Chonoko. */
+const marcos = [
+  { titulo: `${site.fundacao.ano}`, texto: `Fundação em ${site.cidade}`, pendente: !site.fundacao.confirmado },
+  { titulo: "Chocolates e biscoitos", texto: "Linha artesanal de bombons, trufas, barras e biscoitos", pendente: false },
+  { titulo: "Hoje", texto: "Loja, doces finos para festas e cestas para presentear", pendente: false },
+];
 
 export function Historia() {
   return (
@@ -47,18 +51,24 @@ export function Historia() {
               />
             </Reveal>
             <Reveal atraso={120}>
-              <div className="mt-8 rounded-[1.75rem] border border-dashed border-creme/25 bg-creme/[0.04] p-6 sm:p-8">
-                <Pendente tom="escuro">Texto provisório</Pendente>
-                <div className="mt-5 space-y-4 text-lg leading-relaxed text-creme/85">
-                  <p>
-                    Este espaço vai contar a história real da Chonoko: como tudo começou, quem está por trás do balcão e o
-                    que inspira cada receita.
-                  </p>
-                  <p className="text-creme/65">
-                    Sugestões para a conversa com a cafeteria: o ano de abertura, a origem do nome, a relação com o
-                    chocolate artesanal, a escolha da esquina e o que torna a Chonoko especial para quem a frequenta.
-                  </p>
-                </div>
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-creme/85">
+                <p>
+                  A Chonoko é especializada na fabricação de <strong className="font-semibold text-creme">chocolates e biscoitos artesanais</strong>.
+                  São bombons, trufas, barras, biscoitos doces e salgados feitos com ingredientes selecionados e receitas únicas.
+                </p>
+                <p>
+                  Fundada em {site.cidade}, oferece{" "}
+                  <span className="whitespace-nowrap">
+                    desde {site.fundacao.ano}
+                    {!site.fundacao.confirmado && (
+                      <span className="ml-2 align-middle">
+                        <Pendente tom="escuro">Ano a confirmar</Pendente>
+                      </span>
+                    )}
+                  </span>{" "}
+                  os melhores sabores em toda a linha de produtos.
+                </p>
+                <p className="text-[0.85rem] text-creme/55">Texto baseado na apresentação do cardápio oficial da loja.</p>
               </div>
             </Reveal>
           </div>
@@ -81,12 +91,12 @@ export function Historia() {
         <div className="mt-16">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rosa-claro">Nossa trajetória</p>
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
-            {marcos.map((m, i) => (
-              <li key={m} className="relative border-t border-creme/20 pt-5">
+            {marcos.map((m) => (
+              <li key={m.titulo} className="relative border-t border-creme/20 pt-5">
                 <span className="absolute -top-[5px] left-0 size-2.5 rounded-full bg-rosa-claro" aria-hidden="true" />
-                <p className="font-display text-2xl text-creme">{m}</p>
-                <p className="mt-2 flex flex-wrap items-center gap-2 text-creme/65">
-                  {i === 0 ? "Ano e detalhes" : "Detalhes"} <Pendente tom="escuro" />
+                <p className="font-display text-3xl text-creme">{m.titulo}</p>
+                <p className="mt-2 flex flex-wrap items-center gap-2 text-creme/70">
+                  {m.texto} {m.pendente && <Pendente tom="escuro">A confirmar</Pendente>}
                 </p>
               </li>
             ))}

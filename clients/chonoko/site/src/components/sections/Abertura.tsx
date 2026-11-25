@@ -27,8 +27,8 @@ export function Abertura() {
             <em className="block font-medium text-rosa">{site.slogan.destaque}</em>
           </h1>
           <p className="mt-7 max-w-md text-lg leading-relaxed text-taupe-ink motion-safe:animate-[entrar_1s_var(--ease-suave)_240ms_both] sm:text-xl">
-            Na Chonoko, o café chega com calma, o chocolate é artesanal e cada visita vira um pequeno ritual. Puxe uma
-            cadeira e fique à vontade.
+            Chocolates e biscoitos artesanais feitos com ingredientes selecionados e receitas únicas. Puxe uma cadeira,
+            escolha o seu preferido e fique à vontade.
           </p>
           <div className="mt-9 flex flex-col gap-3 motion-safe:animate-[entrar_1s_var(--ease-suave)_360ms_both] sm:flex-row">
             <Botao href="#cardapio">Conhecer o cardápio</Botao>

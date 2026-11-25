@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { Mail, MapPin, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import logo from "@/assets/images/logo-selo.png";
-import { navegacao, site, whatsappUrl } from "@/data/site";
+import { infoInicial, linkWhatsapp, navegacao, site } from "@/data/site";
 import { IconeInstagram } from "@/components/ui/Icones";
 import { Pendente } from "@/components/ui/Pendente";
 
 export function Rodape() {
-  const wa = whatsappUrl();
+  const wa = linkWhatsapp();
   return (
     <footer className="relative bg-madeira-escura text-creme/80" style={{ "--festone-cor": "var(--color-madeira-escura)" } as React.CSSProperties}>
       <div className="festone absolute inset-x-0 -top-4" aria-hidden="true" />
@@ -22,8 +22,8 @@ export function Rodape() {
             </div>
           </div>
           <p className="mt-6 max-w-sm leading-relaxed">
-            Cafeteria e chocolates artesanais em {site.cidade}, {site.estado}. Um lugar para desacelerar, conversar e
-            celebrar pequenos momentos.
+            Chocolates e biscoitos artesanais, doces finos e cestas em {site.cidade}, {site.estado}. Um lugar para
+            desacelerar e celebrar pequenos momentos.
           </p>
         </div>
 
@@ -57,32 +57,19 @@ export function Rodape() {
             </li>
             <li className="flex flex-wrap items-center gap-3">
               <MessageCircle className="size-5 text-rosa-claro" aria-hidden="true" />
-              {wa ? (
-                <a href={wa} target="_blank" rel="noopener noreferrer" className="hover:text-creme">
-                  WhatsApp
-                </a>
-              ) : (
-                <>
-                  WhatsApp <Pendente tom="escuro" />
-                </>
-              )}
+              <a href={wa} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-creme">
+                WhatsApp {infoInicial.whatsappExibicao}
+                <span className="sr-only">(abre em nova aba)</span>
+              </a>
             </li>
             <li className="flex flex-wrap items-center gap-3">
               <MapPin className="size-5 text-rosa-claro" aria-hidden="true" />
-              {site.endereco ?? (
+              {infoInicial.endereco ?? (
                 <>
                   {site.cidade}, {site.estado} <Pendente tom="escuro">Endereço a confirmar</Pendente>
                 </>
               )}
             </li>
-            {site.email && (
-              <li className="flex items-center gap-3">
-                <Mail className="size-5 text-rosa-claro" aria-hidden="true" />
-                <a href={`mailto:${site.email}`} className="hover:text-creme">
-                  {site.email}
-                </a>
-              </li>
-            )}
           </ul>
         </div>
       </div>
@@ -92,7 +79,12 @@ export function Rodape() {
           <p>
             © {site.anoCopyright} {site.nome}. Todos os direitos reservados.
           </p>
-          <p>Protótipo de apresentação — versão para avaliação</p>
+          <p>
+            Protótipo de apresentação ·{" "}
+            <a href="/admin" className="underline-offset-4 hover:text-creme hover:underline">
+              Área da equipe
+            </a>
+          </p>
         </div>
       </div>
     </footer>

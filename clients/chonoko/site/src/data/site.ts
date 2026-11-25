@@ -2,15 +2,11 @@
  * Dados institucionais da Chonoko.
  *
  * REGRA DO PROJETO: nada aqui pode ser inventado. Campos ainda não confirmados
- * pela cafeteria ficam como `null` e o site mostra o aviso "a confirmar".
- * Para atualizar, basta preencher o valor — os componentes reagem sozinhos.
+ * ficam como `null` e o site mostra "a confirmar".
+ * Os dados editáveis pelo painel (contato, endereço, horários) começam com
+ * os valores de `infoInicial`.
  */
-
-export type DiaHorario = {
-  dia: string;
-  /** Ex.: "8h às 19h". `null` = ainda não confirmado. */
-  horario: string | null;
-};
+import type { InfoLoja } from "@/lib/dados/tipos";
 
 export const site = {
   nome: "Chonoko",
@@ -19,37 +15,29 @@ export const site = {
   /** Assinatura presente no próprio selo da marca. */
   assinatura: "Qualidade e Sabor",
   selo: "Chocolates Artesanais",
-
-  /** Frase de abertura — proposta para aprovação. */
   slogan: { inicio: "Pequenos momentos,", destaque: "grandes sabores." },
-
   instagram: {
     usuario: "@chonokocachoeiradosul",
     url: "https://www.instagram.com/chonokocachoeiradosul/",
   },
-
   /**
-   * WhatsApp no formato internacional, só dígitos: "55" + DDD + número.
-   * Ex.: "5551999999999". Enquanto `null`, o botão aparece como "em breve".
+   * Ano de fundação citado no "Menu Loja" ("desde 1988").
+   * CONFIRMAR com as proprietárias antes de tratar como definitivo.
    */
-  whatsapp: null as string | null,
-  /** Para que serve o WhatsApp (pedidos, encomendas, dúvidas...). A confirmar. */
-  whatsappFinalidade: null as string | null,
-  whatsappMensagem: "Olá, Chonoko! Vim pelo site e gostaria de mais informações.",
+  fundacao: { ano: 1988, confirmado: false },
+  /** Link público de avaliações (ex.: perfil no Google). A confirmar. */
+  avaliacoesUrl: null as string | null,
+  anoCopyright: 2026,
+};
 
-  telefone: null as string | null,
-  email: null as string | null,
-
-  /** Endereço completo (rua, número, bairro). Enquanto `null`, aparece "a confirmar". */
-  endereco: null as string | null,
-  cep: null as string | null,
-
-  /**
-   * Link/embed oficial do Google Maps da loja. Enquanto não houver,
-   * o mapa usa uma BUSCA pelo nome na cidade (não são coordenadas inventadas).
-   */
-  mapsEmbedUrl: null as string | null,
-
+export const infoInicial: InfoLoja = {
+  whatsapp: "5551996695981",
+  whatsappExibicao: "(51) 99669-5981",
+  whatsappMensagem: "Olá! Conheci a Chonoko pelo site e gostaria de saber mais sobre os produtos.",
+  instagram: site.instagram.usuario,
+  endereco: null,
+  cidade: site.cidade,
+  estado: site.estado,
   horarios: [
     { dia: "Segunda-feira", horario: null },
     { dia: "Terça-feira", horario: null },
@@ -58,12 +46,7 @@ export const site = {
     { dia: "Sexta-feira", horario: null },
     { dia: "Sábado", horario: null },
     { dia: "Domingo", horario: null },
-  ] as DiaHorario[],
-
-  /** Link público para avaliações (ex.: perfil no Google). A confirmar. */
-  avaliacoesUrl: null as string | null,
-
-  anoCopyright: 2026,
+  ],
 };
 
 export const navegacao = [
@@ -75,20 +58,15 @@ export const navegacao = [
   { href: "#localizacao", rotulo: "Localização" },
 ] as const;
 
-const buscaMaps = encodeURIComponent(`${site.nome} ${site.cidade} ${site.estado}`);
+/** Link de conversa no WhatsApp, com mensagem inicial opcional. */
+export function linkWhatsapp(mensagem: string = infoInicial.whatsappMensagem, numero: string = infoInicial.whatsapp) {
+  return `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+}
+
+function consultaMaps(endereco: string | null) {
+  return encodeURIComponent(endereco ? `${endereco}, ${site.cidade} - ${site.estado}` : `${site.nome} ${site.cidade} ${site.estado}`);
+}
 
 /** Abre o Google Maps com a busca pelo nome (ou pelo endereço, quando confirmado). */
-export const mapsBuscaUrl = `https://www.google.com/maps/search/?api=1&query=${
-  site.endereco ? encodeURIComponent(`${site.endereco}, ${site.cidade} - ${site.estado}`) : buscaMaps
-}`;
-
-export const mapsEmbed =
-  site.mapsEmbedUrl ??
-  `https://www.google.com/maps?q=${
-    site.endereco ? encodeURIComponent(`${site.endereco}, ${site.cidade} - ${site.estado}`) : buscaMaps
-  }&output=embed`;
-
-export function whatsappUrl(): string | null {
-  if (!site.whatsapp) return null;
-  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMensagem)}`;
-}
+export const mapsBuscaUrl = (endereco: string | null) => `https://www.google.com/maps/search/?api=1&query=${consultaMaps(endereco)}`;
+export const mapsEmbedUrl = (endereco: string | null) => `https://www.google.com/maps?q=${consultaMaps(endereco)}&output=embed`;

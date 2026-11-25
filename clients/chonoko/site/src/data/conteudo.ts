@@ -1,10 +1,10 @@
 import type { StaticImageData } from "next/image";
 import ambiente from "@/assets/images/ambiente.jpg";
 import fachada from "@/assets/images/fachada.jpg";
-import type { IconeCategoria } from "./cardapio";
+import type { Publicacao } from "@/lib/dados/tipos";
 
 /* ------------------------------------------------------------------ */
-/* Fotos reais fornecidas pela cafeteria                               */
+/* Fotos reais do espaço                                               */
 /* ------------------------------------------------------------------ */
 
 export const fotos = {
@@ -19,93 +19,153 @@ export const fotos = {
 } satisfies Record<string, { src: StaticImageData; alt: string }>;
 
 /* ------------------------------------------------------------------ */
-/* Galeria                                                             */
+/* Galeria — somente fotos reais (espaço + produtos dos cardápios)     */
 /* ------------------------------------------------------------------ */
 
-export type ItemGaleria =
-  | { tipo: "foto"; id: string; titulo: string; src: StaticImageData; alt: string; posicao?: string; formato: "grande" | "alta" | "normal" }
-  | { tipo: "espaco"; id: string; titulo: string; icone: IconeCategoria | "ambiente" | "especial"; formato: "grande" | "alta" | "normal" };
-
-/**
- * Apenas duas fotos reais estão disponíveis. Os "espaços" mostram onde
- * entrarão as próximas fotos — não são imagens de banco.
- */
-export const galeria: ItemGaleria[] = [
-  { tipo: "foto", id: "ambiente", titulo: "Nosso salão", ...fotos.ambiente, formato: "grande" },
-  { tipo: "foto", id: "fachada", titulo: "A esquina da Chonoko", ...fotos.fachada, posicao: "50% 75%", formato: "alta" },
-  { tipo: "espaco", id: "cafes", titulo: "Cafés", icone: "cafe", formato: "normal" },
-  { tipo: "espaco", id: "tortas", titulo: "Tortas", icone: "torta", formato: "normal" },
-  { tipo: "espaco", id: "chocolates", titulo: "Chocolates", icone: "chocolate", formato: "normal" },
-  { tipo: "espaco", id: "doces", titulo: "Doces", icone: "doce", formato: "normal" },
-  { tipo: "espaco", id: "especiais", titulo: "Produtos especiais", icone: "especial", formato: "normal" },
-  { tipo: "espaco", id: "ambiente-2", titulo: "Mais do ambiente", icone: "ambiente", formato: "normal" },
-];
-
-/* ------------------------------------------------------------------ */
-/* Novidades e promoções — DEMONSTRATIVAS                              */
-/* ------------------------------------------------------------------ */
-
-export type Novidade = {
+export type ItemGaleria = {
   id: string;
-  rotulo: string;
   titulo: string;
-  descricao: string;
-  /** Data, período ou validade. `null` = não se aplica / a definir. */
-  validade: string | null;
-  acao: { rotulo: string; href: string };
-  foto: StaticImageData | null;
-  demo?: boolean;
+  src: StaticImageData | string;
+  alt: string;
+  posicao?: string;
+  formato: "grande" | "alta" | "normal";
 };
 
-const instagram = "https://www.instagram.com/chonokocachoeiradosul/";
+export const galeria: ItemGaleria[] = [
+  { id: "ambiente", titulo: "Nosso salão", ...fotos.ambiente, formato: "grande" },
+  { id: "fachada", titulo: "A esquina da Chonoko", ...fotos.fachada, posicao: "50% 75%", formato: "alta" },
+  { id: "torta", titulo: "Torta de bolacha", src: "/cardapio/torta-bolacha.jpg", alt: "Torta de bolacha da Chonoko vista de cima, coberta com farofa dourada e um coração de chocolate.", formato: "normal" },
+  { id: "trufa", titulo: "Trufas", src: "/cardapio/trufas-encomenda.jpg", alt: "Trufa de chocolate da Chonoko sobre bandeja espelhada.", formato: "normal" },
+  { id: "cacho", titulo: "Cacho de chocolate", src: "/cardapio/cacho-chocolate-100.jpg", alt: "Cacho de bombons embrulhados em papel dourado.", formato: "alta" },
+  { id: "cesta", titulo: "Cestas para presentear", src: "/cardapio/cestas-prontas.jpg", alt: "Cesta da Chonoko embrulhada em celofane com laço vermelho e branco.", formato: "normal" },
+  { id: "copinho", titulo: "Copinho de café", src: "/cardapio/ganache-copinho-cafe.jpg", alt: "Doce em formato de xícara de chocolate com ganache de café.", formato: "normal" },
+  { id: "biscoitos", titulo: "Biscoitos artesanais", src: "/cardapio/biscoito-mel-coberto.jpg", alt: "Pacote de biscoitos de mel cobertos com chocolate e etiqueta da Chonoko.", formato: "normal" },
+  { id: "brigadeiro", titulo: "Docinhos para festas", src: "/cardapio/brigadeiro-gourmet.jpg", alt: "Brigadeiro gourmet com granulado de chocolate.", formato: "normal" },
+  { id: "bombons", titulo: "Bombons", src: "/cardapio/bombons-flocos.jpg", alt: "Bombons embrulhados em papel rosa metalizado.", formato: "normal" },
+  { id: "te-amo", titulo: "Te amo", src: "/cardapio/te-amo.jpg", alt: "Coração de chocolate com a escrita “te amo”.", formato: "normal" },
+];
 
-export const novidades: Novidade[] = [
+/* ------------------------------------------------------------------ */
+/* Promoções e novidades — EXEMPLOS (editáveis pelo painel)            */
+/* ------------------------------------------------------------------ */
+
+/** Nenhuma destas publicações está vigente: todas são `demo: true`. */
+export const publicacoesIniciais: Publicacao[] = [
   {
-    id: "lancamento",
-    rotulo: "Lançamento",
-    titulo: "Espaço para o próximo lançamento",
+    id: "exemplo-cestas",
+    tipo: "novidade",
+    titulo: "Cestas para cada ocasião",
     descricao:
-      "Exemplo de card para apresentar um produto novo ou sazonal, com foto, descrição e chamada. Conteúdo ilustrativo.",
-    validade: "Período a definir",
-    acao: { rotulo: "Acompanhar no Instagram", href: instagram },
-    foto: null,
+      "Sem tempo para escolher presentes? A Chonoko tem cestas prontas e também monta a sua com produtos selecionados.",
+    foto: "/cardapio/cestas-prontas.jpg",
+    precoOriginal: null,
+    precoPromocional: null,
+    inicio: null,
+    fim: null,
+    condicoes: "Valores e composição sob consulta pelo WhatsApp.",
+    ativo: true,
     demo: true,
+    criadoEm: "2026-11-25",
   },
   {
-    id: "promocao",
-    rotulo: "Promoção",
-    titulo: "Espaço para uma promoção vigente",
-    descricao: "Aqui entram condições, validade e regras confirmadas pela Chonoko.",
-    validade: "Validade a definir",
-    acao: { rotulo: "Ver no Instagram", href: instagram },
-    foto: null,
+    id: "exemplo-promocao",
+    tipo: "promocao",
+    titulo: "Exemplo de promoção: bombons de licor",
+    descricao: "Card ilustrativo para mostrar como uma promoção aparece no site, com preço “de/por” e validade.",
+    foto: "/cardapio/bombom-licor.jpg",
+    precoOriginal: 4.8,
+    precoPromocional: 4,
+    inicio: "2026-11-20",
+    fim: "2026-12-31",
+    condicoes: "Promoção fictícia, apenas para demonstração. Não está vigente.",
+    ativo: true,
     demo: true,
+    criadoEm: "2026-11-25",
   },
   {
-    id: "datas",
-    rotulo: "Data especial",
-    titulo: "Espaço para encomendas de datas especiais",
-    descricao: "Ideal para campanhas como Páscoa, Dia das Mães ou Natal, quando houver.",
-    validade: null,
-    acao: { rotulo: "Ver no Instagram", href: instagram },
-    foto: null,
+    id: "exemplo-sazonal",
+    tipo: "especial",
+    titulo: "Figo banhado no chocolate nobre",
+    descricao: "Produto sazonal do cardápio de doces finos. Um exemplo de como destacar um produto especial da temporada.",
+    foto: "/cardapio/figo-banhado-encomenda.jpg",
+    precoOriginal: null,
+    precoPromocional: null,
+    inicio: null,
+    fim: null,
+    condicoes: "Disponibilidade conforme a época. Consulte antes de encomendar.",
+    ativo: true,
     demo: true,
+    criadoEm: "2026-11-25",
+  },
+  {
+    id: "exemplo-inativa",
+    tipo: "promocao",
+    titulo: "Exemplo de campanha desativada",
+    descricao: "Fica guardada no painel e não aparece no site enquanto estiver desativada.",
+    foto: null,
+    precoOriginal: null,
+    precoPromocional: null,
+    inicio: null,
+    fim: null,
+    condicoes: "",
+    ativo: false,
+    demo: true,
+    criadoEm: "2026-11-25",
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Avaliações — somente reais e autorizadas                            */
+/* Avaliações — ILUSTRATIVAS                                           */
 /* ------------------------------------------------------------------ */
 
 export type Avaliacao = {
   id: string;
   texto: string;
   autor: string;
-  /** Origem identificável, ex.: "Google", "Instagram". */
-  fonte: string;
-  nota?: 1 | 2 | 3 | 4 | 5;
-  data?: string;
+  /** Contexto da avaliação (nunca "Google" para depoimentos fictícios). */
+  contexto: string;
+  nota: 1 | 2 | 3 | 4 | 5;
+  /** `true` = depoimento fictício, só para demonstrar o layout. */
+  demo: boolean;
 };
 
-/** Vazio de propósito: nenhuma avaliação será inventada. */
-export const avaliacoes: Avaliacao[] = [];
+/**
+ * DEPOIMENTOS FICTÍCIOS, criados apenas para demonstrar o visual da seção.
+ * Nomes inventados, sem fotos de pessoas. Substituir por avaliações reais e autorizadas.
+ */
+export const avaliacoes: Avaliacao[] = [
+  {
+    id: "ilustrativa-1",
+    texto:
+      "Passei para comprar um presente e saí com uma cesta linda, montada na hora. O atendimento foi carinhoso do começo ao fim.",
+    autor: "Helena M.",
+    contexto: "Cestas",
+    nota: 5,
+    demo: true,
+  },
+  {
+    id: "ilustrativa-2",
+    texto: "As trufas são impecáveis, dá para sentir que é chocolate de verdade. Virou parada obrigatória quando venho ao centro.",
+    autor: "Ricardo A.",
+    contexto: "Chocolates",
+    nota: 5,
+    demo: true,
+  },
+  {
+    id: "ilustrativa-3",
+    texto:
+      "Encomendei os docinhos do aniversário da minha filha. Chegaram fresquinhos, bem embalados e todo mundo pediu o contato.",
+    autor: "Patrícia L.",
+    contexto: "Doces para festas",
+    nota: 5,
+    demo: true,
+  },
+  {
+    id: "ilustrativa-4",
+    texto: "O ambiente é aconchegante, perfeito para uma pausa no meio da tarde. O biscoito de mel coberto é o meu preferido.",
+    autor: "Fernanda C.",
+    contexto: "Visita à loja",
+    nota: 5,
+    demo: true,
+  },
+];
