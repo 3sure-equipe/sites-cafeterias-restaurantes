@@ -40,8 +40,6 @@ export const galeria: ItemGaleria[] = [
   { id: "cesta", titulo: "Cestas para presentear", src: "/cardapio/cestas-prontas.jpg", alt: "Cesta da Chonoko embrulhada em celofane com laço vermelho e branco.", formato: "normal" },
   { id: "copinho", titulo: "Copinho de café", src: "/cardapio/ganache-copinho-cafe.jpg", alt: "Doce em formato de xícara de chocolate com ganache de café.", formato: "normal" },
   { id: "biscoitos", titulo: "Biscoitos artesanais", src: "/cardapio/biscoito-mel-coberto.jpg", alt: "Pacote de biscoitos de mel cobertos com chocolate e etiqueta da Chonoko.", formato: "normal" },
-  { id: "brigadeiro", titulo: "Docinhos para festas", src: "/cardapio/brigadeiro-gourmet.jpg", alt: "Brigadeiro gourmet com granulado de chocolate.", formato: "normal" },
-  { id: "bombons", titulo: "Bombons", src: "/cardapio/bombons-flocos.jpg", alt: "Bombons embrulhados em papel rosa metalizado.", formato: "normal" },
   { id: "te-amo", titulo: "Te amo", src: "/cardapio/te-amo.jpg", alt: "Coração de chocolate com a escrita “te amo”.", formato: "normal" },
 ];
 
@@ -70,14 +68,15 @@ export const publicacoesIniciais: Publicacao[] = [
   {
     id: "exemplo-promocao",
     tipo: "promocao",
-    titulo: "Exemplo de promoção: bombons de licor",
-    descricao: "Card ilustrativo para mostrar como uma promoção aparece no site, com preço “de/por” e validade.",
-    foto: "/cardapio/bombom-licor.jpg",
-    precoOriginal: 4.8,
-    precoPromocional: 4,
-    inicio: "2026-11-20",
-    fim: "2026-12-31",
-    condicoes: "Promoção fictícia, apenas para demonstração. Não está vigente.",
+    titulo: "Espaço para a próxima promoção",
+    descricao:
+      "Card ilustrativo: quando a Chonoko cadastrar uma promoção no painel, aqui aparecem a foto, o preço promocional, a validade e as condições.",
+    foto: null,
+    precoOriginal: null,
+    precoPromocional: null,
+    inicio: null,
+    fim: null,
+    condicoes: "Conteúdo ilustrativo. Nenhuma promoção vigente.",
     ativo: true,
     demo: true,
     criadoEm: "2026-11-25",
@@ -130,42 +129,7 @@ export type Avaliacao = {
 };
 
 /**
- * DEPOIMENTOS FICTÍCIOS, criados apenas para demonstrar o visual da seção.
- * Nomes inventados, sem fotos de pessoas. Substituir por avaliações reais e autorizadas.
+ * Avaliações REAIS e autorizadas (com nome e origem identificável).
+ * Vazio de propósito: depoimentos fictícios foram removidos na Etapa 02.
  */
-export const avaliacoes: Avaliacao[] = [
-  {
-    id: "ilustrativa-1",
-    texto:
-      "Passei para comprar um presente e saí com uma cesta linda, montada na hora. O atendimento foi carinhoso do começo ao fim.",
-    autor: "Helena M.",
-    contexto: "Cestas",
-    nota: 5,
-    demo: true,
-  },
-  {
-    id: "ilustrativa-2",
-    texto: "As trufas são impecáveis, dá para sentir que é chocolate de verdade. Virou parada obrigatória quando venho ao centro.",
-    autor: "Ricardo A.",
-    contexto: "Chocolates",
-    nota: 5,
-    demo: true,
-  },
-  {
-    id: "ilustrativa-3",
-    texto:
-      "Encomendei os docinhos do aniversário da minha filha. Chegaram fresquinhos, bem embalados e todo mundo pediu o contato.",
-    autor: "Patrícia L.",
-    contexto: "Doces para festas",
-    nota: 5,
-    demo: true,
-  },
-  {
-    id: "ilustrativa-4",
-    texto: "O ambiente é aconchegante, perfeito para uma pausa no meio da tarde. O biscoito de mel coberto é o meu preferido.",
-    autor: "Fernanda C.",
-    contexto: "Visita à loja",
-    nota: 5,
-    demo: true,
-  },
-];
+export const avaliacoes: Avaliacao[] = [];

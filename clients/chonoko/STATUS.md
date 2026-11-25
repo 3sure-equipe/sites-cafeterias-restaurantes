@@ -34,5 +34,6 @@ Deployment Protection → *Protection Bypass for Automation* (o que tem a nota "
 - [x] Etapa 01: refinamento visual do site e do painel (publicada).
 - [ ] Aviso "1 Insight" do Next.js no painel, só no modo de desenvolvimento. Não afeta a prévia.
 - [x] Carregar mais cedo a foto principal da abertura.
-- [ ] Dados da Chonoko: endereço, horários, cafés e bebidas, ano de fundação (1988?), pontos de `cardapio-extraido.md`.
+- [x] Etapa 02: evolução visual do site público; endereço e horários oficiais aplicados.
+- [ ] Dados da Chonoko: horário de domingo, cafés e bebidas, ano de fundação (1988?), pontos de `cardapio-extraido.md`, avaliações reais autorizadas.
 - [ ] Futuro: banco de dados e login reais no painel (ver `site/README.md`) e plano/hospedagem para a versão oficial.

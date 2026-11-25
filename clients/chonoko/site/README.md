@@ -63,7 +63,7 @@ Tudo passa por `src/lib/dados/repositorio.ts`, então as telas não precisam mud
 | Arquivo | O que tem |
 |---|---|
 | `src/data/cardapio.ts` | Categorias, produtos e regras de encomenda (dos PDFs) |
-| `src/data/site.ts` | Nome, Instagram, WhatsApp, ano de fundação (a confirmar), endereço e horários (a confirmar) |
+| `src/data/site.ts` | Nome, Instagram, WhatsApp, ano de fundação (a confirmar), **endereço e horários oficiais** (fonte única) |
 | `src/data/conteudo.ts` | Fotos do espaço, galeria, publicações de exemplo e avaliações ilustrativas |
 | `public/cardapio/` | Fotos dos produtos (recortadas dos PDFs) |
 
@@ -84,11 +84,11 @@ src/
 
 ## O que ainda depende da Chonoko
 
-- Endereço e horários de funcionamento.
+- Horário de domingo (hoje: "não informado").
 - Confirmação do ano de fundação (1988, citado no Menu Loja).
 - Cardápio de cafés e bebidas, que não está nos PDFs.
 - Pontos do cardápio listados em `clients/chonoko/cardapio-extraido.md` (preço das tortas, "Lagar.H", "Brulle", cestas).
 - História da marca com mais detalhes.
-- Avaliações reais autorizadas: as atuais são **ilustrativas**.
+- Avaliações reais autorizadas (a seção não exibe nenhum depoimento até lá).
 - Promoções reais: as atuais são **exemplos**.
 - Confirmação das cores e logo em vetor.

@@ -30,23 +30,36 @@ export const site = {
   anoCopyright: 2026,
 };
 
+/**
+ * Horários OFICIAIS, confirmados pelo responsável (Etapa 02).
+ * Fonte única: daqui saem os textos do site, o status "aberto agora" e os
+ * dados estruturados para o Google. Domingo: sem informação confirmada.
+ */
+export const horariosOficiais = [
+  { dias: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"], periodos: [["09:00", "12:00"], ["14:00", "18:30"]] },
+  { dias: ["Sábado"], periodos: [["09:00", "12:00"], ["14:00", "17:00"]] },
+] as const;
+
+/** "09:00" → "09h"; "18:30" → "18h30" */
+const hora = (h: string) => h.replace(/^(\d{2}):(\d{2})$/, (_, a, b) => (b === "00" ? `${a}h` : `${a}h${b}`));
+const textoPeriodos = (dia: string) => {
+  const grupo = horariosOficiais.find((g) => (g.dias as readonly string[]).includes(dia));
+  return grupo ? grupo.periodos.map(([a, b]) => `${hora(a)} às ${hora(b)}`).join(" e ") : null;
+};
+
 export const infoInicial: InfoLoja = {
   whatsapp: "5551996695981",
   whatsappExibicao: "(51) 99669-5981",
   whatsappMensagem: "Olá! Conheci a Chonoko pelo site e gostaria de saber mais sobre os produtos.",
   instagram: site.instagram.usuario,
-  endereco: null,
+  endereco: "Rua Marechal Floriano, 346 – Centro",
+  cep: "96508-010",
   cidade: site.cidade,
   estado: site.estado,
-  horarios: [
-    { dia: "Segunda-feira", horario: null },
-    { dia: "Terça-feira", horario: null },
-    { dia: "Quarta-feira", horario: null },
-    { dia: "Quinta-feira", horario: null },
-    { dia: "Sexta-feira", horario: null },
-    { dia: "Sábado", horario: null },
-    { dia: "Domingo", horario: null },
-  ],
+  horarios: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"].map((dia) => ({
+    dia,
+    horario: textoPeriodos(dia), // Domingo fica null = sem informação confirmada
+  })),
 };
 
 export const navegacao = [
@@ -63,10 +76,19 @@ export function linkWhatsapp(mensagem: string = infoInicial.whatsappMensagem, nu
   return `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 }
 
-function consultaMaps(endereco: string | null) {
-  return encodeURIComponent(endereco ? `${endereco}, ${site.cidade} - ${site.estado}` : `${site.nome} ${site.cidade} ${site.estado}`);
+/** Endereço completo em uma linha, como o Google Maps entende. */
+export function enderecoCompleto(info: Pick<InfoLoja, "endereco" | "cidade" | "estado" | "cep">) {
+  if (!info.endereco) return null;
+  return `${info.endereco.replace(" – ", ", ")}, ${info.cidade} - ${info.estado}${info.cep ? `, ${info.cep}` : ""}`;
 }
 
-/** Abre o Google Maps com a busca pelo nome (ou pelo endereço, quando confirmado). */
-export const mapsBuscaUrl = (endereco: string | null) => `https://www.google.com/maps/search/?api=1&query=${consultaMaps(endereco)}`;
-export const mapsEmbedUrl = (endereco: string | null) => `https://www.google.com/maps?q=${consultaMaps(endereco)}&output=embed`;
+function consultaMaps(info: Pick<InfoLoja, "endereco" | "cidade" | "estado" | "cep">) {
+  // Busca pelo endereço oficial; nunca por coordenadas inventadas.
+  return encodeURIComponent(enderecoCompleto(info) ?? `${site.nome} ${site.cidade} ${site.estado}`);
+}
+
+/** Abre o Google Maps no endereço oficial (ou na busca pelo nome, se faltar o endereço). */
+export const mapsBuscaUrl = (info: Pick<InfoLoja, "endereco" | "cidade" | "estado" | "cep">) =>
+  `https://www.google.com/maps/search/?api=1&query=${consultaMaps(info)}`;
+export const mapsEmbedUrl = (info: Pick<InfoLoja, "endereco" | "cidade" | "estado" | "cep">) =>
+  `https://www.google.com/maps?q=${consultaMaps(info)}&output=embed`;

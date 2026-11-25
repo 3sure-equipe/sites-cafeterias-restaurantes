@@ -250,3 +250,16 @@
     transform: translateY(18px);
   }
 }
+
+@keyframes aproximar {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes subir {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}

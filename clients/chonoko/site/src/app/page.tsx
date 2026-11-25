@@ -1,6 +1,7 @@
 import { BarraAcoesMobile } from "@/components/layout/BarraAcoesMobile";
 import { BarraPrototipo } from "@/components/layout/BarraPrototipo";
 import { Cabecalho } from "@/components/layout/Cabecalho";
+import { DadosEstruturados } from "@/components/layout/DadosEstruturados";
 import { Rodape } from "@/components/layout/Rodape";
 import { Abertura } from "@/components/sections/Abertura";
 import { Avaliacoes } from "@/components/sections/Avaliacoes";
@@ -15,6 +16,7 @@ import { Novidades } from "@/components/sections/Novidades";
 export default function Inicio() {
   return (
     <>
+      <DadosEstruturados />
       <BarraPrototipo />
       <Cabecalho />
       <main id="conteudo" className="overflow-x-clip">

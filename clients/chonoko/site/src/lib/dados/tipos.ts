@@ -89,6 +89,8 @@ export type InfoLoja = {
   whatsappMensagem: string;
   instagram: string;
   endereco: string | null;
+  /** CEP no formato 00000-000. Opcional para manter compatibilidade com dados salvos. */
+  cep?: string | null;
   cidade: string;
   estado: string;
   horarios: DiaHorario[];

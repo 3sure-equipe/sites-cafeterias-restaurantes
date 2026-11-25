@@ -17,7 +17,7 @@ const manrope = Manrope({
 });
 
 const descricao =
-  "Chonoko: cafeteria e chocolates artesanais em Cachoeira do Sul, RS. Cafés, tortas e chocolates em um ambiente acolhedor. Qualidade e sabor.";
+  "Chonoko: chocolates e biscoitos artesanais, doces finos e cestas em Cachoeira do Sul, RS. Rua Marechal Floriano, 346 – Centro. Qualidade e sabor.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),

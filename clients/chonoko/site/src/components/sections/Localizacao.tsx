@@ -40,7 +40,7 @@ export function Localizacao() {
                     Venha nos <em className="text-rosa">visitar.</em>
                   </>
                 }
-                texto={`Estamos em ${site.cidade}, ${site.estado}. Puxe uma cadeira: a mesa está esperando por você.`}
+                texto={`No Centro de ${site.cidade}. Puxe uma cadeira: a mesa está esperando por você.`}
               />
             </Reveal>
 
