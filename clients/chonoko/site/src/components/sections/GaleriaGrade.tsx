@@ -19,7 +19,7 @@ const posicoes: Record<string, string> = {
   copinho: "lg:col-[5/9] lg:row-[8/10]",
   cacho: "lg:col-[9/13] lg:row-[6/10]",
   cesta: "lg:col-[1/6] lg:row-[10/13]",
-  biscoitos: "lg:col-[6/9] lg:row-[10/13]",
+  vitrine: "lg:col-[6/9] lg:row-[10/13]",
   "te-amo": "lg:col-[9/13] lg:row-[10/13]",
 };
 

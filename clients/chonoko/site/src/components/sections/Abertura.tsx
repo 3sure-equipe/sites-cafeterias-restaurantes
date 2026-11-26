@@ -19,34 +19,34 @@ export function Abertura() {
         <div className="relative lg:order-2 lg:col-span-6 xl:col-span-6">
           <div className="relative h-[60svh] max-h-[34rem] min-h-[24rem] overflow-hidden rounded-b-[2.5rem] sm:max-h-[40rem] lg:absolute lg:inset-0 lg:h-auto lg:max-h-none lg:rounded-b-none lg:rounded-bl-[14rem]">
             <Image
-              src={fotos.ambiente.src}
-              alt={fotos.ambiente.alt}
+              src={fotos.fachadaNoite.src}
+              alt={fotos.fachadaNoite.alt}
               fill
               loading="eager"
               fetchPriority="high"
               placeholder="blur"
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-[64%_50%] motion-safe:animate-[aproximar_2.6s_var(--ease-suave)_both] lg:object-[58%_50%]"
+              className="object-cover object-[50%_40%] motion-safe:animate-[aproximar_2.6s_var(--ease-suave)_both] lg:object-[50%_45%]"
             />
             {/* Véu suave para integrar a foto ao papel creme */}
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-madeira-escura/30 via-transparent to-madeira-escura/10 lg:bg-gradient-to-r lg:from-madeira-escura/15 lg:via-transparent lg:to-transparent" />
-            <p className="absolute bottom-14 right-5 hidden rounded-full bg-papel/90 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-bordo backdrop-blur sm:block lg:bottom-8 lg:right-8">
-              Nosso salão
+            <p className="absolute bottom-8 right-8 hidden rounded-full bg-papel/90 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-bordo backdrop-blur lg:block">
+              Nossa fachada
             </p>
           </div>
 
-          {/* Fachada em moldura (computador) */}
-          <div className="absolute bottom-14 left-[18%] z-10 hidden w-40 rotate-[-4deg] rounded-[1.25rem] bg-papel p-1.5 shadow-[0_24px_50px_-24px_rgb(43_26_23/0.65)] transition-transform duration-500 ease-suave hover:rotate-0 motion-safe:animate-[entrar_1.2s_var(--ease-suave)_600ms_both] lg:block xl:w-48">
+          {/* Salão em moldura (computador) */}
+          <div className="absolute bottom-14 -left-10 z-10 hidden w-40 rotate-[-4deg] rounded-[1.25rem] bg-papel p-1.5 shadow-[0_24px_50px_-24px_rgb(43_26_23/0.65)] transition-transform duration-500 ease-suave hover:rotate-0 motion-safe:animate-[entrar_1.2s_var(--ease-suave)_600ms_both] lg:block xl:w-48">
             <div className="relative aspect-[3/4] overflow-hidden rounded-[1rem]">
               <Image
-                src={fotos.fachada.src}
-                alt="Detalhe da fachada da Chonoko, com o toldo listrado bordô e branco."
+                src={fotos.ambiente.src}
+                alt="Salão da Chonoko, com a parede rosa e o letreiro de madeira."
                 fill
                 sizes="13rem"
-                className="object-cover object-[32%_60%]"
+                className="object-cover object-[56%_50%]"
               />
             </div>
-            <p className="px-2 pb-1 pt-2 text-center font-display text-[1.05rem] italic text-bordo">A esquina da Chonoko</p>
+            <p className="px-2 pb-1 pt-2 text-center font-display text-[1.05rem] italic text-bordo">Nosso salão</p>
           </div>
 
           {/* Selo girando */}

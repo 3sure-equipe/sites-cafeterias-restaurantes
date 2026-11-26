@@ -15,12 +15,12 @@ export function Localizacao() {
             <figure className="relative">
               <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[2rem] shadow-[0_40px_80px_-45px_rgb(43_26_23/0.7)]">
                 <Image
-                  src={fotos.fachada.src}
-                  alt={fotos.fachada.alt}
+                  src={fotos.esquinaNoite.src}
+                  alt={fotos.esquinaNoite.alt}
                   fill
                   placeholder="blur"
                   sizes="(min-width: 1024px) 34vw, 92vw"
-                  className="object-cover object-[40%_80%] transition-transform duration-[1.6s] ease-suave hover:scale-105"
+                  className="object-cover object-[45%_70%] transition-transform duration-[1.6s] ease-suave hover:scale-105"
                 />
               </div>
               <figcaption className="mt-4 flex items-center gap-2 text-sm text-taupe-ink">

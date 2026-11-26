@@ -21,7 +21,7 @@ export function Galeria() {
           </Reveal>
           <Reveal atraso={100} className="max-w-sm">
             <p className="text-taupe-ink">
-              O salão, a esquina e alguns dos produtos feitos na casa. Toque nas fotos para ampliar.
+              O salão, a fachada e alguns dos produtos feitos na casa. Toque nas fotos para ampliar.
             </p>
           </Reveal>
         </div>
